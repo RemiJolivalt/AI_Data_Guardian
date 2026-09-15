@@ -1,0 +1,15 @@
+{
+  "finding_id": "FND-001",
+  "assessment_id": "ASM-001",
+  "category": "DATA_QUALITY",
+  "severity": "HIGH",
+  "title": "Duplicate customer identifiers",
+  "description": "142 duplicate customer keys detected in the customers dataset.",
+  "business_consequence": "Net Revenue may double-count customers, inflating the KPI.",
+  "affected_assets": ["dataset:customers", "kpi:net_revenue"],
+  "evidence_ids": ["EVD-001"],
+  "confidence": 0.93,
+  "status": "OPEN",
+  "created_by": "agent:evidence",
+  "requires_human_review": false
+}

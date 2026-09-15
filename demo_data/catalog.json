@@ -1,0 +1,21 @@
+{
+  "catalog_version": "partial-2026-05",
+  "datasets": [
+    {
+      "name": "customers",
+      "owner": null,
+      "steward": "data.steward@corp.example",
+      "classification": "INTERNAL",
+      "description": "Customer master used for revenue attribution.",
+      "freshness_rule": null
+    },
+    {
+      "name": "transactions",
+      "owner": "sales.ops@corp.example",
+      "steward": null,
+      "classification": null,
+      "description": null,
+      "freshness_rule": "max_age_days: 2"
+    }
+  ]
+}

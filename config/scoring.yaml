@@ -1,0 +1,40 @@
+# Trust Score configuration (cahier §6, ADR-0005).
+# Deterministic and versioned. Any change to weights or logic MUST bump score_version.
+# Weights are relative importance of each of the 8 dimensions and sum to 1.0.
+score_version: "1.0.0"
+weights_total: 1.0
+
+# Minimum number of evidence records a dimension needs before it can be scored.
+# Below this, the dimension resolves to INSUFFICIENT_EVIDENCE (never a guessed value).
+dimensions:
+  DATA_QUALITY:
+    weight: 0.20
+    min_evidence: 1
+  GOVERNANCE:
+    weight: 0.15
+    min_evidence: 1
+  METADATA:
+    weight: 0.10
+    min_evidence: 1
+  LINEAGE:
+    weight: 0.10
+    min_evidence: 1
+  COMPLIANCE:
+    weight: 0.15
+    min_evidence: 1
+  BUSINESS_FITNESS:
+    weight: 0.10
+    min_evidence: 1
+  AI_READINESS:
+    weight: 0.10
+    min_evidence: 1
+  EVIDENCE_STRENGTH:
+    weight: 0.10
+    min_evidence: 1
+
+# Status thresholds applied to the weighted overall score in [0, 1].
+status_thresholds:
+  TRUSTED: 0.85
+  CONDITIONALLY_TRUSTED: 0.70
+  AT_RISK: 0.50
+  # Below AT_RISK -> NOT_TRUSTED. Missing minimum evidence -> INSUFFICIENT_EVIDENCE.

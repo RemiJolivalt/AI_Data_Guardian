@@ -1,0 +1,45 @@
+# ---- Secrets ----
+.env
+*.env
+!.env.example
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# ---- Node / React ----
+node_modules/
+.next/
+dist/
+build/
+coverage/
+*.local
+
+# ---- Data / runtime ----
+*.db
+*.sqlite
+*.sqlite3
+outputs/reports/*
+outputs/run_logs/*
+!outputs/reports/.gitkeep
+!outputs/run_logs/.gitkeep
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+~$*
+*.tmp
+
+# ---- Legacy sync artifacts (kept on disk, not tracked) ----
+Manual_Inputs/**/.venv/
+Manual_Inputs/**/*.pyc

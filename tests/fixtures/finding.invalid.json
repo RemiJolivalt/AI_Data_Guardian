@@ -1,0 +1,10 @@
+{
+  "finding_id": "FND-002",
+  "assessment_id": "ASM-001",
+  "category": "DATA_QUALITY",
+  "severity": "HIGH",
+  "title": "Finding with no evidence",
+  "evidence_ids": [],
+  "confidence": 0.5,
+  "created_by": "agent:evidence"
+}

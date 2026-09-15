@@ -1,0 +1,17 @@
+# Governance rules evaluated against the catalog and datasets (demo).
+rules:
+  - rule_id: R-OWNER-REQUIRED
+    applies_to: dataset
+    requires: owner
+  - rule_id: R-STEWARD-REQUIRED
+    applies_to: dataset
+    requires: steward
+  - rule_id: R-CLASSIFICATION-REQUIRED
+    applies_to: dataset
+    requires: classification
+  - rule_id: R-KPI-OWNER-REQUIRED
+    applies_to: kpi
+    requires: owner
+  - rule_id: R-FRESHNESS-DECLARED
+    applies_to: dataset
+    requires: freshness_rule

@@ -1,0 +1,17 @@
+# Data Quality policy (demo). Controls have stable ids and are cited by compliance findings.
+policy_id: POL-DQ-001
+name: "Core Data Quality Policy"
+version: "1.0.0"
+controls:
+  - control_id: DQ-UNIQUENESS
+    description: "Master entities must have unique business keys."
+    dimension: DATA_QUALITY
+  - control_id: DQ-FRESHNESS
+    description: "Transactional feeds must be refreshed within their SLA."
+    dimension: DATA_QUALITY
+  - control_id: GOV-OWNERSHIP
+    description: "Every business-critical dataset must have a named owner."
+    dimension: GOVERNANCE
+  - control_id: GOV-DEFINITION
+    description: "Every KPI must have an owner and a business definition matching its calculation."
+    dimension: GOVERNANCE

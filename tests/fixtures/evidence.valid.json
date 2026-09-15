@@ -1,0 +1,11 @@
+{
+  "evidence_id": "EVD-001",
+  "source_id": "SRC-001",
+  "source_location": "demo_data/customers.csv",
+  "method": "duplicate_key_check",
+  "observed_value": 142,
+  "unit": "rows",
+  "is_synthetic": true,
+  "hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "generated_at": "2026-09-15T08:00:00Z"
+}

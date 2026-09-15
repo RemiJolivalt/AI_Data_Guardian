@@ -1,0 +1,11 @@
+customer_id,full_name,email,country,owner,created_at
+C-1001,Acme Corp,billing@acme.example,FR,,2025-01-04
+C-1002,Globex SA,finance@globex.example,FR,data.steward@corp.example,2025-01-06
+C-1003,Initech,,US,,2025-02-11
+C-1001,Acme Corporation,billing@acme.example,FR,,2025-01-04
+C-1004,Umbrella Ltd,ap@umbrella.example,UK,data.steward@corp.example,2025-03-02
+C-1005,Soylent,accounts@soylent.example,US,,2025-03-09
+C-1002,Globex S.A.,finance@globex.example,FR,,2025-01-06
+C-1006,Hooli,,US,,2025-04-01
+C-1007,Vehement Capital,,FR,,2025-04-15
+C-1008,Massive Dynamic,ap@massivedynamic.example,US,data.steward@corp.example,2025-05-20

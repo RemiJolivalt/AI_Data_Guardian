@@ -1,0 +1,11 @@
+[
+  {
+    "feedback_id": "FB-DEMO-001",
+    "content": "Steward confirmed C-1001 and C-1002 duplicates are true duplicates, not distinct legal entities.",
+    "approved_for_reuse": false,
+    "author": "data.steward@corp.example",
+    "approver": null,
+    "created_at": "2026-07-01T09:00:00Z",
+    "is_synthetic": true
+  }
+]

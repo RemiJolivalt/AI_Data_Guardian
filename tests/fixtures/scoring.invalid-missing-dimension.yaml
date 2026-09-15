@@ -1,0 +1,13 @@
+score_version: "bad-1"
+weights_total: 1.0
+dimensions:
+  DATA_QUALITY:
+    weight: 0.5
+    min_evidence: 1
+  GOVERNANCE:
+    weight: 0.5
+    min_evidence: 1
+status_thresholds:
+  TRUSTED: 0.85
+  CONDITIONALLY_TRUSTED: 0.70
+  AT_RISK: 0.50

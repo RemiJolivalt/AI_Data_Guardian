@@ -1,0 +1,18 @@
+{
+  "scenario": "revenue_forecasting_agent",
+  "is_synthetic": true,
+  "expected_trust_status": "NOT_TRUSTED",
+  "expected_ai_readiness": "NOT_READY",
+  "expected_findings": [
+    { "category": "DATA_QUALITY", "control_id": "DQ-UNIQUENESS", "affected": "dataset:customers" },
+    { "category": "DATA_QUALITY", "control_id": "DQ-FRESHNESS", "affected": "dataset:transactions" },
+    { "category": "GOVERNANCE", "control_id": "GOV-OWNERSHIP", "affected": "dataset:customers" },
+    { "category": "GOVERNANCE", "control_id": "GOV-DEFINITION", "affected": "kpi:net_revenue" }
+  ],
+  "expected_top_actions": [
+    "Deduplicate customer master",
+    "Assign a Net Revenue KPI owner",
+    "Enforce transactions freshness SLA"
+  ],
+  "note": "Values are targets for the deterministic pipeline built in Phase 1; not yet computed."
+}
