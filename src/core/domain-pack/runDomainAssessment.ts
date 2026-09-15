@@ -5,6 +5,7 @@ import { loadCatalog, loadRules, type CatalogEntry, type RuleIndex } from "@/cor
 import { parseKnowledgePack, type KnowledgePack } from "@/core/customer/knowledgePack";
 import { computeCoverage, type ColumnRef, type CoverageResult } from "@/core/customer/coverage";
 import { generateSuggestions, type Suggestion } from "@/core/customer/suggestions";
+import { computeCoverageWithLearning, type LearnedRule } from "@/core/learning/engine";
 import { getDomain } from "@/core/domain-pack/registry";
 import type { DomainManifest, DomainStory } from "@/core/domain-pack/manifest";
 
@@ -64,6 +65,8 @@ export interface DomainRunOptions {
   now?: Date;
   /** Optional supervision scope: only these assets (tables) are assessed. Empty/undefined = all. */
   assets?: string[];
+  /** Capitalized knowledge applied before assessing (improves coverage over time). */
+  learned?: LearnedRule[];
 }
 
 export function runDomainAssessment(options: DomainRunOptions): DomainAssessmentResult {
@@ -74,7 +77,11 @@ export function runDomainAssessment(options: DomainRunOptions): DomainAssessment
   const universe =
     scope.length > 0 ? inputs.universe.filter((u) => scope.includes(u.asset)) : inputs.universe;
 
-  const coverage = computeCoverage(universe, inputs.catalog, inputs.rules, inputs.knowledgePack);
+  const learned = options.learned ?? [];
+  const coverage =
+    learned.length > 0
+      ? computeCoverageWithLearning(universe, inputs.catalog, inputs.rules, inputs.knowledgePack, learned)
+      : computeCoverage(universe, inputs.catalog, inputs.rules, inputs.knowledgePack);
   const suggestions = generateSuggestions(coverage, inputs.knowledgePack, inputs.manifest.stories);
 
   return {

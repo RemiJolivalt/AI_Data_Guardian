@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { validateSuggestion } from "@/core/learning/validate";
+import { getWorkspaceStore } from "@/core/memory";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +23,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       domainId: id,
       suggestionId: body.suggestion_id,
     });
+    // Capitalize the validated knowledge (best-effort; resilient without Supabase).
+    await getWorkspaceStore()
+      .saveLearnedRule(id, result.learned_rule)
+      .catch(() => undefined);
     // Simulated write-back targets — no external write in the MVP (cahier §3.2, §10.1).
     const writeback_simulated = ["Governance catalog", "Business Glossary", "PII Registry"];
     return NextResponse.json(

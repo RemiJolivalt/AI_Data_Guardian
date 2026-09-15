@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Shell, Card, Chip } from "@/app/_components/Shell";
 import { ScopeSelector } from "@/app/_components/ScopeSelector";
 import { DeclareForm } from "@/app/_components/DeclareForm";
+import { AddDocumentForm } from "@/app/_components/AddDocumentForm";
 import { t } from "@/app/_components/theme";
 import { listDomains } from "@/core/domain-pack/registry";
+import { getWorkspaceStore } from "@/core/memory";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,6 +29,9 @@ export default async function SettingsPage({
   }
 
   const m = selected.manifest;
+  const documents = await getWorkspaceStore()
+    .listDocuments(selected.domain_id)
+    .catch(() => []);
   const connections = [
     { tool: "Data Governance (catalogue)", source: m.catalog_file, kind: "Collibra / Purview / DataGalaxy" },
     { tool: "Data Quality", source: m.rules_file, kind: "DQ engine" },
@@ -113,9 +118,15 @@ export default async function SettingsPage({
         </p>
         <ul style={{ margin: 0, paddingLeft: 18, color: t.text, fontSize: 14, lineHeight: 1.8 }}>
           <li>{m.knowledge_pack_file} — <Chip label="curated" color={t.proposed} /></li>
+          {documents.map((d) => (
+            <li key={d.document_id}>
+              {d.name} — <Chip label={d.doc_type} color={t.cta} />{" "}
+              <span style={{ color: t.muted, fontSize: 12 }}>(persisté)</span>
+            </li>
+          ))}
         </ul>
-        <p style={{ margin: "12px 0 4px", fontWeight: 700, color: t.title }}>Ajouter un document (déclaratif)</p>
-        <DeclareForm fields={["Nom du document", "Type (policy/glossary/…)", "URL"]} cta="Ajouter au contexte" placeholder="document" />
+        <p style={{ margin: "12px 0 4px", fontWeight: 700, color: t.title }}>Ajouter un document</p>
+        <AddDocumentForm domainId={selected.domain_id} />
       </Card>
     </Shell>
   );

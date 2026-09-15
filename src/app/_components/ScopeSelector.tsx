@@ -25,9 +25,14 @@ export function ScopeSelector({ domainId, assets }: { domainId: string; assets: 
     });
   };
 
-  const apply = () => {
+  const apply = async () => {
     const selected = assets.map((a) => a.asset).filter((a) => checked.has(a));
     const all = selected.length === assets.length;
+    await fetch(`/api/domain/${domainId}/scope`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ assets: all ? [] : selected }),
+    }).catch(() => undefined);
     const url = all ? `/domain/${domainId}` : `/domain/${domainId}?assets=${selected.join(",")}`;
     router.push(url as Route);
   };

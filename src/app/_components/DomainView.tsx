@@ -16,7 +16,15 @@ const FLYWHEEL = [
 ];
 
 /** Presentational view for any Domain Pack assessment (Customer, Product, HR, ...). */
-export function DomainView({ result: r, scope }: { result: DomainAssessmentResult; scope?: string[] }) {
+export function DomainView({
+  result: r,
+  scope,
+  learnedCount = 0,
+}: {
+  result: DomainAssessmentResult;
+  scope?: string[];
+  learnedCount?: number;
+}) {
   const overall = r.coverage.overall;
   const storyLabels: Record<string, string> = Object.fromEntries(
     Object.entries(r.stories).map(([k, v]) => [k, v.label]),
@@ -95,10 +103,11 @@ export function DomainView({ result: r, scope }: { result: DomainAssessmentResul
           ))}
         </div>
         <div style={{ marginTop: 12, display: "flex", gap: 10, alignItems: "center" }}>
-          <Chip label="Enterprise Knowledge Growth" color={t.proposed} />
+          <Chip label={`Enterprise Knowledge Growth · ${learnedCount} validées`} color={t.proposed} />
           <span style={{ color: t.muted, fontSize: 13 }}>
-            Chaque PII validée se propage aux attributs similaires (ex. *_email) — l’entreprise
-            n’améliore plus une colonne, mais tout le patrimoine.
+            Chaque PII validée se propage aux attributs similaires (ex. *_email) et est capitalisée
+            (persistée, ré-appliquée aux prochaines analyses) — l’entreprise n’améliore plus une
+            colonne, mais tout le patrimoine.
           </span>
         </div>
       </Card>

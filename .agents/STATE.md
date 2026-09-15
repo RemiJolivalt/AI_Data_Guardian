@@ -43,8 +43,18 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
 - **35/35 tests pass; `next build` green (7 routes).**
 - Pending: apply the migration in Supabase (SQL editor) and set the 3 Supabase env vars in Vercel.
 
-## Extensibility — Domain Packs (done)
+## Persistence & learning (done)
 
+- Workspace store (repository pattern) with in-memory + **Supabase** impls: learned rules, supervision
+  scope, context documents (`src/core/memory/workspaceStore.ts`, `supabaseWorkspaceStore.ts`).
+- Validated suggestions are **capitalized** (persisted) and **re-applied** to future assessments
+  (cross-domain by token) — Enterprise Knowledge Growth KPI on the domain view.
+- Supervision **scope persisted** (`/api/domain/[id]/scope`); domain page honors it.
+- **Context documents ingested as data** (`/api/settings/document`), listed in Settings.
+- Migration `supabase/migrations/0002_workspace.sql` (run in SQL editor for prod).
+- **65/65 tests pass; `next build` green.**
+
+## Extensibility — Domain Packs (done)
 - A business object is a **Domain Pack** (manifest `domain.yaml` + data + catalog + rules + knowledge
   pack), listed in `config/domains.yaml`. Generic engine `runDomainAssessment` + grounded suggestions.
 - Sidebar and landing enumerate the registry; dynamic route `/domain/[id]`; `/customer` redirects.
