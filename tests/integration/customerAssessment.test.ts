@@ -8,8 +8,8 @@ const now = new Date("2026-09-15T00:00:00Z");
 describe("runCustomerAssessment — Customer Trust demo (integration)", () => {
   const result = runCustomerAssessment({ rootDir, now });
 
-  it("assesses all five customer-domain assets", () => {
-    expect(result.totals.assets).toBe(5);
+  it("assesses all customer-domain assets", () => {
+    expect(result.totals.assets).toBe(6);
     expect(result.totals.columns).toBeGreaterThan(40);
   });
 

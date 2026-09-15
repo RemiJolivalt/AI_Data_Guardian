@@ -9,6 +9,7 @@ assets:
   - { file: orders.csv, asset: ORDER, role: TRANSACTIONAL, key: order_id }
   - { file: customer_interaction.csv, asset: CUSTOMER_INTERACTION, role: TRANSACTIONAL, key: interaction_id }
   - { file: consent.csv, asset: CONSENT, role: MASTER, key: consent_id }
+  - { file: customer_contacts.csv, asset: CUSTOMER_CONTACTS, role: MASTER, key: contact_id }
 catalog_file: governance_metadata.csv
 rules_file: data_quality_rules.csv
 knowledge_pack_file: industry_customer_context.yaml

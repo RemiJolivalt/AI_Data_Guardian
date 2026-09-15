@@ -1,0 +1,7 @@
+contact_id,customer_id,contact_email,billing_email,sales_email,support_phone
+CT-01,CUS-00000001,marie.contact@example.com,billing1@example.com,,+33 1 23 45 67 89
+CT-02,CUS-00000002,jean.contact@example.com,,sales2@example.com,
+CT-03,CUS-00000004,,billing4@example.com,,+33 1 44 55 66 77
+CT-04,CUS-00000005,liu.contact@example.com,,,
+CT-05,CUS-00000010,chloe.contact@example.com,billing10@example.com,sales10@example.com,+33 6 98 76 54 32
+CT-06,CUS-00000012,,,,

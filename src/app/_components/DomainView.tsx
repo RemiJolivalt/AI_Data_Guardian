@@ -1,20 +1,26 @@
 import { Shell, Card, Stat, Chip } from "@/app/_components/Shell";
+import { SuggestionInbox } from "@/app/_components/SuggestionInbox";
 import { t } from "@/app/_components/theme";
 import type { DomainAssessmentResult } from "@/core/domain-pack/runDomainAssessment";
 
 const pct = (ratio: number): string => `${Math.round(ratio * 100)}%`;
 
-const TYPE_COLOR: Record<string, string> = {
-  DESCRIPTION: t.cta,
-  PII_CLASSIFICATION: t.danger,
-  DQ_RULE: t.warn,
-  LINEAGE: t.proposed,
-};
+const FLYWHEEL = [
+  "Outils (catalogue, DQ, policies)",
+  "AI Guardian — assessment",
+  "Recommandations groundées",
+  "Validation humaine",
+  "Capitalisation (knowledge)",
+  "Write-back (governance, DQ) — simulé",
+  "Meilleures analyses futures",
+];
 
 /** Presentational view for any Domain Pack assessment (Customer, Product, HR, ...). */
 export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
   const overall = r.coverage.overall;
-  const storyLabel = (key: string): string => r.stories[key]?.label ?? key;
+  const storyLabels: Record<string, string> = Object.fromEntries(
+    Object.entries(r.stories).map(([k, v]) => [k, v.label]),
+  );
 
   return (
     <Shell
@@ -23,13 +29,12 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
       subtitle="Sait-on suffisamment décrire, gouverner et contrôler cette donnée ?"
       scope={`${r.label} · ${r.object_type.replace("_", " ")}`}
     >
+      <p style={{ margin: "0 0 12px", color: t.muted, fontStyle: "italic" }}>
+        We don’t assess data quality. We quantify trust for decisions, analytics and AI.
+      </p>
+
       <section style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, marginBottom: 16 }}>
-        <Stat
-          label="Knowledge coverage"
-          value={pct(overall)}
-          sub={`${r.totals.columns} colonnes · ${r.totals.assets} actifs`}
-          subColor={overall < 0.5 ? t.danger : t.ok}
-        />
+        <Stat label="Knowledge coverage" value={pct(overall)} sub={`${r.totals.columns} colonnes · ${r.totals.assets} actifs`} subColor={overall < 0.5 ? t.danger : t.ok} />
         <Stat label="Business Glossary" value={pct(r.coverage.metadata.ratio)} sub="Metadata" />
         <Stat label="Accountability" value={pct(r.coverage.governance.ratio)} sub="Governance" />
         <Stat label="Control Coverage" value={pct(r.coverage.quality.ratio)} sub="Quality" />
@@ -38,53 +43,16 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
       </section>
 
       <Card style={{ marginBottom: 16, borderLeft: `4px solid ${t.danger}` }}>
-        <strong style={{ color: t.title }}>
-          {r.label} data is not ready for autonomous use.
-        </strong>
+        <strong style={{ color: t.title }}>{r.label} data is not ready for autonomous use.</strong>
         <p style={{ margin: "6px 0 0", color: t.text }}>
-          Seulement <strong>{pct(overall)}</strong> de la donnée nécessaire à une vue fiable est
-          décrite, gouvernée et contrôlée. {r.gap_counts.pii} attribut(s) personnel(s) non classé(s),{" "}
-          {r.gap_counts.description} description(s) et {r.gap_counts.rule} règle(s) attendue(s)
-          manquantes.
+          Seulement <strong>{pct(overall)}</strong> de la donnée nécessaire à une vue fiable est décrite,
+          gouvernée et contrôlée. {r.gap_counts.pii} attribut(s) personnel(s) non classé(s),{" "}
+          {r.gap_counts.description} description(s) et {r.gap_counts.rule} règle(s) attendue(s) manquantes.
         </p>
       </Card>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
-        <Card>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h2 style={{ margin: 0, fontSize: 18, color: t.title }}>Suggestions de l’IA</h2>
-            <Chip label={`${r.suggestions.length} PROPOSED`} color={t.proposed} />
-          </div>
-          <p style={{ color: t.muted, fontSize: 13, margin: "4px 0 12px" }}>
-            Propositions groundées (jamais appliquées sans validation humaine). Chacune cite sa base
-            et sa confiance.
-          </p>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {r.suggestions.slice(0, 8).map((s) => (
-              <li key={s.suggestion_id} style={{ border: `1px solid ${t.border}`, borderRadius: 10, padding: "0.7rem 0.9rem", marginBottom: 10 }}>
-                <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                  <Chip label={s.type.replace("_", " ")} color={TYPE_COLOR[s.type] ?? t.cta} />
-                  <Chip label={storyLabel(s.story)} color={t.muted} />
-                  <strong style={{ color: t.title }}>
-                    {s.asset}.{s.column}
-                  </strong>
-                  <span style={{ marginLeft: "auto", color: t.ok, fontWeight: 700, fontSize: 13 }}>
-                    Confiance {Math.round(s.confidence * 100)}%
-                  </span>
-                </div>
-                <div style={{ margin: "6px 0", color: t.text }}>{s.proposed_value}</div>
-                <div style={{ color: t.muted, fontSize: 12 }}>
-                  PROPOSED · basis {s.basis.join(", ")} · {s.rationale}
-                </div>
-                <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-                  <Btn label="Approve" bg={t.ok} />
-                  <Btn label="Edit" bg="#ffffff" fg={t.cta} border={t.cta} />
-                  <Btn label="Reject" bg="#ffffff" fg={t.danger} border={t.danger} />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Card>
+      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
+        <SuggestionInbox domainId={r.domain_id} suggestions={r.suggestions} storyLabels={storyLabels} />
 
         <Card>
           <h2 style={{ margin: "0 0 10px", fontSize: 18, color: t.title }}>Couverture par dimension</h2>
@@ -98,23 +66,35 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
             <li>{r.gap_counts.pii} attributs PII non classés</li>
             <li>{r.gap_counts.rule} règles de qualité attendues manquantes</li>
             <li>{r.gap_counts.lineage} lineage non déclaré</li>
-            <li>{r.gap_counts.owner} propriétaires manquants</li>
           </ul>
-          <p style={{ color: t.muted, fontSize: 12, marginTop: 12 }}>
-            Résultat déterministe · données synthétiques. La validation régénère un export governance
-            dans outputs/ (write-back simulé).
-          </p>
         </Card>
       </div>
-    </Shell>
-  );
-}
 
-function Btn({ label, bg, fg = "#fff", border }: { label: string; bg: string; fg?: string; border?: string }) {
-  return (
-    <span style={{ background: bg, color: fg, border: border ? `1px solid ${border}` : "none", padding: "6px 14px", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>
-      {label}
-    </span>
+      <Card>
+        <h2 style={{ margin: "0 0 4px", fontSize: 18, color: t.title }}>Knowledge Flywheel</h2>
+        <p style={{ margin: "0 0 12px", color: t.muted, fontSize: 13 }}>
+          Chaque validation enrichit le patrimoine et améliore les prochaines analyses — une mémoire
+          organisationnelle auto-apprenante.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+          {FLYWHEEL.map((step, i) => (
+            <span key={step} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ background: "#f2f5fb", border: `1px solid ${t.border}`, borderRadius: 8, padding: "6px 10px", fontSize: 13, color: t.text }}>
+                {step}
+              </span>
+              {i < FLYWHEEL.length - 1 ? <span style={{ color: t.accent, fontWeight: 800 }}>→</span> : null}
+            </span>
+          ))}
+        </div>
+        <div style={{ marginTop: 12, display: "flex", gap: 10, alignItems: "center" }}>
+          <Chip label="Enterprise Knowledge Growth" color={t.proposed} />
+          <span style={{ color: t.muted, fontSize: 13 }}>
+            Chaque PII validée se propage aux attributs similaires (ex. *_email) — l’entreprise
+            n’améliore plus une colonne, mais tout le patrimoine.
+          </span>
+        </div>
+      </Card>
+    </Shell>
   );
 }
 

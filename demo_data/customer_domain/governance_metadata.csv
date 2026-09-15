@@ -3,7 +3,7 @@ CUSTOMER,customer_id,VARCHAR,Customer Identifier,Unique identifier of a customer
 CUSTOMER,customer_type,VARCHAR,Customer Type,,Customer Segment,,data.steward@corp.example,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
 CUSTOMER,first_name,VARCHAR,First Name,Given name of an individual customer,Person Name,marketing.ops@corp.example,data.steward@corp.example,PII,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
 CUSTOMER,last_name,VARCHAR,Last Name,Family name of an individual customer,Person Name,marketing.ops@corp.example,data.steward@corp.example,PII,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
-CUSTOMER,email,VARCHAR,Email,,Contact Point,,,,,CRM,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,email,VARCHAR,Email,,Contact Point,marketing.ops@corp.example,,,CRM,,,CUSTOMER_360,false,ACTIVE
 CUSTOMER,phone_number,VARCHAR,Phone,,Contact Point,,,,CRM,,,,false,ACTIVE
 CUSTOMER,country_code,VARCHAR,Country,ISO country code of the customer,Country,,,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
 CUSTOMER,postal_code,VARCHAR,Postal Code,Postal code of the customer main address,Address,,,,CRM,,,,false,ACTIVE
@@ -19,3 +19,6 @@ CONSENT,consent_status,VARCHAR,Consent Status,Current status of the consent,Cons
 CUSTOMER_ADDRESS,is_primary,BOOLEAN,Primary Address Flag,Indicates the primary address of a customer,Address,,data.steward@corp.example,INTERNAL,CRM,,,CUSTOMER_360,false,ACTIVE
 CUSTOMER_ADDRESS,country_code,VARCHAR,Country,ISO country code of the address,Country,,,INTERNAL,CRM,,,CUSTOMER_360,false,ACTIVE
 CUSTOMER_INTERACTION,sentiment,VARCHAR,Sentiment,,Sentiment,,,,SERVICE_CLOUD,,,,false,DRAFT
+CUSTOMER_CONTACTS,contact_email,VARCHAR,Contact Email,,Contact Point,marketing.ops@corp.example,,,CRM,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER_CONTACTS,billing_email,VARCHAR,Billing Email,,Contact Point,billing.ops@corp.example,,,ERP,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER_CONTACTS,sales_email,VARCHAR,Sales Email,,Contact Point,sales.ops@corp.example,,,CRM,,,CUSTOMER_360,false,ACTIVE
