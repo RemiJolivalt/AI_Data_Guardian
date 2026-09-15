@@ -1,0 +1,3 @@
+rule_id,asset_name,column_name,quality_dimension,rule_description,rule_type,expected_pattern,threshold,severity,status,last_result,validation_status
+DQR-P001,PRODUCT,product_id,VALIDITY,product_id must match PRD-XXXXXX,PATTERN,^PRD-[0-9]{6}$,0.98,HIGH,ACTIVE,FAIL,VALIDATED
+DQR-P002,PRODUCT,unit_price,VALIDITY,unit_price must be positive,RANGE,>0,1.0,HIGH,ACTIVE,FAIL,VALIDATED

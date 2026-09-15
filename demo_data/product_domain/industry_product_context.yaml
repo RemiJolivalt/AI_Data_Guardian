@@ -1,0 +1,41 @@
+knowledge_pack_id: KP-RETAIL-PRODUCT
+version: "1.0.0"
+is_curated: true
+industry: Retail
+domain: Product
+
+definition: >
+  A product is a sellable item with a stable identifier, a category, a price, a lifecycle
+  status, and a responsible supplier.
+
+lineage_chain:
+  - PIM_PRODUCT
+  - PRODUCT_CLEANSED
+  - MERCH_360
+
+columns:
+  product_id:
+    canonical_description: "Unique and stable identifier of a product."
+    is_pii: false
+    expected_pattern: '^PRD-[0-9]{6}$'
+    expected_rules: [NOT_NULL, UNIQUE, PATTERN]
+    critical: true
+  category:
+    canonical_description: "Merchandising category the product belongs to."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: false
+  unit_price:
+    canonical_description: "Selling price per unit of the product."
+    is_pii: false
+    expected_rules: [RANGE]
+    critical: true
+  status:
+    canonical_description: "Lifecycle status of the product (active, inactive, discontinued)."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: false
+
+business_risks:
+  - "Unpriced or negatively priced products break merchandising and revenue reporting."
+  - "Uncategorised products fragment assortment and search."

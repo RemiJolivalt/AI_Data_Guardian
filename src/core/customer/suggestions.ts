@@ -1,20 +1,14 @@
 import type { CoverageResult, Gap } from "@/core/customer/coverage";
 import type { KnowledgePack } from "@/core/customer/knowledgePack";
+import type { DomainStory } from "@/core/domain-pack/manifest";
 
 /**
  * Deterministic, grounded suggestion engine (cahier §5.2 A05/A14, §11.2). Every suggestion is
  * PROPOSED, cites its basis (a knowledge-pack entry), and carries a confidence. Nothing is applied
- * without human validation (G2/G6). This is the DEMO_MODE fallback; an LLM may later refine wording
- * only — never the fact.
+ * without human validation (G2/G6). Domain-agnostic: narrative "stories" come from the manifest.
  */
 
-export type SuggestionType =
-  | "DESCRIPTION"
-  | "PII_CLASSIFICATION"
-  | "DQ_RULE"
-  | "LINEAGE";
-
-export type SuggestionStory = "identity" | "consent" | "order_integrity" | "general";
+export type SuggestionType = "DESCRIPTION" | "PII_CLASSIFICATION" | "DQ_RULE" | "LINEAGE";
 
 export interface Suggestion {
   suggestion_id: string;
@@ -26,7 +20,7 @@ export interface Suggestion {
   confidence: number;
   status: "PROPOSED";
   rationale: string;
-  story: SuggestionStory;
+  story: string;
 }
 
 const CONFIDENCE: Record<SuggestionType, number> = {
@@ -36,21 +30,10 @@ const CONFIDENCE: Record<SuggestionType, number> = {
   LINEAGE: 0.8,
 };
 
-function storyOf(asset: string, column: string): SuggestionStory {
-  if (column === "marketing_consent" || asset === "CONSENT" || column.startsWith("consent")) {
-    return "consent";
+function storyOf(asset: string, column: string, stories: Record<string, DomainStory>): string {
+  for (const [key, story] of Object.entries(stories)) {
+    if (story.columns.includes(column) || story.assets.includes(asset)) return key;
   }
-  if (asset === "ORDER" && column === "customer_id") return "order_integrity";
-  const identity = new Set([
-    "customer_id",
-    "email",
-    "phone_number",
-    "first_name",
-    "last_name",
-    "country_code",
-    "postal_code",
-  ]);
-  if (asset === "CUSTOMER" && identity.has(column)) return "identity";
   return "general";
 }
 
@@ -62,6 +45,7 @@ function ruleProposal(kpColumn: KnowledgePack["columns"][string]): string {
 export function generateSuggestions(
   coverage: CoverageResult,
   knowledgePack: KnowledgePack,
+  stories: Record<string, DomainStory> = {},
 ): Suggestion[] {
   const suggestions: Suggestion[] = [];
   const kpId = knowledgePack.knowledge_pack_id;
@@ -88,7 +72,7 @@ export function generateSuggestions(
       confidence: CONFIDENCE[type],
       status: "PROPOSED",
       rationale,
-      story: storyOf(gap.asset, gap.column),
+      story: storyOf(gap.asset, gap.column, stories),
     });
   };
 
@@ -133,6 +117,5 @@ export function generateSuggestions(
     }
   }
 
-  // Highest-confidence, story-grouped first for the demo.
   return suggestions.sort((a, b) => b.confidence - a.confidence);
 }

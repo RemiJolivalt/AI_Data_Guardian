@@ -1,0 +1,5 @@
+supplier_id,supplier_name,country_code,status
+SUP-001,Nordic Peripherals,SE,ACTIVE
+SUP-002,Shenzhen Devices,CN,ACTIVE
+SUP-003,Iberia Accessories,ES,ACTIVE
+SUP-004,Alpine Furniture,CH,ACTIVE

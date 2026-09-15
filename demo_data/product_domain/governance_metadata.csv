@@ -1,0 +1,7 @@
+asset_name,column_name,technical_type,business_name,business_description,business_term,data_owner,data_steward,sensitivity,source_system,upstream_asset,transformation,downstream_usage,critical_data_element,status
+PRODUCT,product_id,VARCHAR,Product Identifier,Unique identifier of a product,Product,catalog.ops@corp.example,data.steward@corp.example,INTERNAL,PIM,PIM_PRODUCT,,MERCH_360,true,ACTIVE
+PRODUCT,product_name,VARCHAR,Product Name,Commercial name of the product,Product,catalog.ops@corp.example,,INTERNAL,PIM,PIM_PRODUCT,,MERCH_360,false,ACTIVE
+PRODUCT,category,VARCHAR,Category,,Category,,,,PIM,,,MERCH_360,false,ACTIVE
+PRODUCT,unit_price,DECIMAL,Unit Price,Selling price per unit,Price,pricing@corp.example,,INTERNAL,PIM,PIM_PRODUCT,,MERCH_360,true,ACTIVE
+PRODUCT,status,VARCHAR,Status,,Status,,,,PIM,,,,false,ACTIVE
+SUPPLIER,supplier_id,VARCHAR,Supplier Identifier,Unique identifier of a supplier,Supplier,procurement@corp.example,,INTERNAL,ERP,,,MERCH_360,true,ACTIVE

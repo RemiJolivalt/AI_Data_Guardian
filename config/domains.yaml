@@ -1,0 +1,8 @@
+# Domain registry — the explicit list of registered business objects.
+# Add a new business object (Product, HR, ...) by dropping its Domain Pack folder
+# (data + domain.yaml) and appending one entry here.
+domains:
+  - domain_id: customer
+    dir: demo_data/customer_domain
+  - domain_id: product
+    dir: demo_data/product_domain

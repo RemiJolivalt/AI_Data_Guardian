@@ -1,0 +1,25 @@
+domain_id: customer
+label: Customer
+object_type: MASTER_DATA
+description: >
+  Customer master and related transactions (addresses, orders, interactions, consent).
+assets:
+  - { file: customer.csv, asset: CUSTOMER, role: MASTER, key: customer_id }
+  - { file: customer_address.csv, asset: CUSTOMER_ADDRESS, role: MASTER, key: address_id }
+  - { file: orders.csv, asset: ORDER, role: TRANSACTIONAL, key: order_id }
+  - { file: customer_interaction.csv, asset: CUSTOMER_INTERACTION, role: TRANSACTIONAL, key: interaction_id }
+  - { file: consent.csv, asset: CONSENT, role: MASTER, key: consent_id }
+catalog_file: governance_metadata.csv
+rules_file: data_quality_rules.csv
+knowledge_pack_file: industry_customer_context.yaml
+stories:
+  identity:
+    label: Identity
+    columns: [customer_id, email, phone_number, first_name, last_name, country_code, postal_code]
+  consent:
+    label: Consent
+    columns: [marketing_consent]
+    assets: [CONSENT]
+  order_integrity:
+    label: Order integrity
+    assets: [ORDER]

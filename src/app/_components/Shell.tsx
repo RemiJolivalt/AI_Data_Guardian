@@ -2,13 +2,27 @@ import type { ReactNode } from "react";
 import type { Route } from "next";
 import Link from "next/link";
 import { t } from "@/app/_components/theme";
+import { listDomains } from "@/core/domain-pack/registry";
 
-const NAV: { key: string; label: string; href: Route }[] = [
+type NavItem = { key: string; label: string; href: Route };
+
+const BASE_TOP: NavItem[] = [
   { key: "home", label: "Accueil", href: "/" as Route },
   { key: "exec", label: "Vue exécutive", href: "/cockpit" as Route },
-  { key: "customer", label: "Customer Trust", href: "/customer" as Route },
-  { key: "runs", label: "Runs", href: "/runs" as Route },
 ];
+const BASE_BOTTOM: NavItem[] = [{ key: "runs", label: "Runs", href: "/runs" as Route }];
+
+function domainNavItems(): NavItem[] {
+  try {
+    return listDomains(process.cwd()).map((d) => ({
+      key: `domain:${d.domain_id}`,
+      label: `${d.manifest.label} Trust`,
+      href: `/domain/${d.domain_id}` as Route,
+    }));
+  } catch {
+    return [];
+  }
+}
 
 /** Application shell (navy sidebar + header) matching the hi-fi mockups. */
 export function Shell({
@@ -24,6 +38,7 @@ export function Shell({
   scope?: string;
   children: ReactNode;
 }) {
+  const NAV: NavItem[] = [...BASE_TOP, ...domainNavItems(), ...BASE_BOTTOM];
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: t.contentBg, color: t.text }}>
       <aside

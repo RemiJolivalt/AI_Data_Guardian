@@ -13,3 +13,4 @@ Format: MADR-lite. Statuses: `proposed` | `accepted` | `superseded`.
 | [0007](0007-auth-strategy.md) | MVP authentication (Supabase Auth) | accepted |
 | [0008](0008-deployment-vercel-supabase.md) | Deployment: Vercel + Supabase | accepted |
 | [0009](0009-implementation-language-typescript.md) | Language: TypeScript (overrides §11.1) | accepted |
+| [0010](0010-domain-packs.md) | Business objects as config-driven Domain Packs | accepted |

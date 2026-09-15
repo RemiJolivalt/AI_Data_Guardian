@@ -17,7 +17,7 @@ Chronological log of material decisions. Structural ones also get an ADR in `doc
 | 2026-09-15 | Implementation language = TypeScript (overrides §11.1) | Vercel/Supabase-native; no Python on host; determinism is language-agnostic | ADR-0009 |
 | 2026-09-15 | Auth = Supabase Auth, minimal roles | Believable steward/gate flows without an IdP | ADR-0007 |
 | 2026-09-15 | Gate G1 approved ("Go on") | Stakeholder cleared scope/sources | — |
-
+| 2026-09-15 | Business objects = config-driven Domain Packs (manifest + registry) | Extensibility: add Product/HR by dropping a folder, no engine code | ADR-0010 |
 ## Open decisions (need owner input)
 
 - ADR-006 PDF/executive export approach.

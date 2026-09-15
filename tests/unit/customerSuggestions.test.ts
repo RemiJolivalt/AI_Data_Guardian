@@ -33,7 +33,8 @@ columns:
 describe("Grounded suggestion engine (§11.2)", () => {
   const universe: ColumnRef[] = [{ asset: "CUSTOMER", column: "email" }];
   const coverage = computeCoverage(universe, loadCatalog(catalogCsv), loadRules(rulesCsv), kp);
-  const suggestions = generateSuggestions(coverage, kp);
+  const stories = { identity: { label: "Identity", columns: ["email"], assets: [] } };
+  const suggestions = generateSuggestions(coverage, kp, stories);
 
   it("proposes description, PII, DQ rule and lineage for an uncovered PII column", () => {
     const types = suggestions.map((s) => s.type).sort();
