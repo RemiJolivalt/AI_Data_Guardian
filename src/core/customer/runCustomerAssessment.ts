@@ -4,6 +4,7 @@ import { parseCsv } from "@/core/ingestion/csv";
 import { loadCatalog, loadRules } from "@/core/customer/catalog";
 import { parseKnowledgePack } from "@/core/customer/knowledgePack";
 import { computeCoverage, type ColumnRef, type CoverageResult } from "@/core/customer/coverage";
+import { generateSuggestions, type Suggestion } from "@/core/customer/suggestions";
 
 /**
  * Orchestrates the deterministic Customer Trust coverage assessment: reads the CRM tables,
@@ -24,6 +25,7 @@ export interface CustomerAssessmentResult extends CoverageResult {
   is_synthetic: true;
   knowledge_pack_id: string;
   generated_at: string;
+  suggestions: Suggestion[];
 }
 
 export interface CustomerRunOptions {
@@ -50,6 +52,7 @@ export function runCustomerAssessment(options: CustomerRunOptions): CustomerAsse
   );
 
   const coverage = computeCoverage(universe, catalog, rules, knowledgePack);
+  const suggestions = generateSuggestions(coverage, knowledgePack);
 
   return {
     scenario: "customer_trust_assessment",
@@ -57,5 +60,6 @@ export function runCustomerAssessment(options: CustomerRunOptions): CustomerAsse
     knowledge_pack_id: knowledgePack.knowledge_pack_id,
     generated_at: now.toISOString(),
     ...coverage,
+    suggestions,
   };
 }
