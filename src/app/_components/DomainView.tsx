@@ -16,7 +16,7 @@ const FLYWHEEL = [
 ];
 
 /** Presentational view for any Domain Pack assessment (Customer, Product, HR, ...). */
-export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
+export function DomainView({ result: r, scope }: { result: DomainAssessmentResult; scope?: string[] }) {
   const overall = r.coverage.overall;
   const storyLabels: Record<string, string> = Object.fromEntries(
     Object.entries(r.stories).map(([k, v]) => [k, v.label]),
@@ -29,9 +29,17 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
       subtitle="Sait-on suffisamment décrire, gouverner et contrôler cette donnée ?"
       scope={`${r.label} · ${r.object_type.replace("_", " ")}`}
     >
-      <p style={{ margin: "0 0 12px", color: t.muted, fontStyle: "italic" }}>
-        We don’t assess data quality. We quantify trust for decisions, analytics and AI.
-      </p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <p style={{ margin: 0, color: t.muted, fontStyle: "italic" }}>
+          We don’t assess data quality. We quantify trust for decisions, analytics and AI.
+        </p>
+        <span style={{ fontSize: 12, color: t.muted }}>
+          Périmètre supervisé :{" "}
+          <strong style={{ color: t.title }}>
+            {scope && scope.length > 0 ? `${scope.length} table(s) — ${scope.join(", ")}` : `toutes (${r.totals.assets})`}
+          </strong>
+        </span>
+      </div>
 
       <section style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, marginBottom: 16 }}>
         <Stat label="Knowledge coverage" value={pct(overall)} sub={`${r.totals.columns} colonnes · ${r.totals.assets} actifs`} subColor={overall < 0.5 ? t.danger : t.ok} />

@@ -62,13 +62,19 @@ export interface DomainRunOptions {
   rootDir: string;
   domainId: string;
   now?: Date;
+  /** Optional supervision scope: only these assets (tables) are assessed. Empty/undefined = all. */
+  assets?: string[];
 }
 
 export function runDomainAssessment(options: DomainRunOptions): DomainAssessmentResult {
   const now = options.now ?? new Date();
   const inputs = loadDomainInputs(options.rootDir, options.domainId);
 
-  const coverage = computeCoverage(inputs.universe, inputs.catalog, inputs.rules, inputs.knowledgePack);
+  const scope = options.assets?.filter((a) => a.length > 0) ?? [];
+  const universe =
+    scope.length > 0 ? inputs.universe.filter((u) => scope.includes(u.asset)) : inputs.universe;
+
+  const coverage = computeCoverage(universe, inputs.catalog, inputs.rules, inputs.knowledgePack);
   const suggestions = generateSuggestions(coverage, inputs.knowledgePack, inputs.manifest.stories);
 
   return {

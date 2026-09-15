@@ -8,6 +8,7 @@ const nextConfig = {
     "/": ["./demo_data/**", "./config/**"],
     "/cockpit": ["./demo_data/**", "./config/**"],
     "/domain/[id]": ["./demo_data/**", "./config/**"],
+    "/settings": ["./demo_data/**", "./config/**"],
     "/api/domain/[id]/validate": ["./demo_data/**", "./config/**"],
     "/runs": ["./demo_data/**", "./config/**"],
     "/api/assessments/demo": ["./demo_data/**", "./config/**"],

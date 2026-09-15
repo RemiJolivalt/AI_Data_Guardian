@@ -10,7 +10,10 @@ const BASE_TOP: NavItem[] = [
   { key: "home", label: "Accueil", href: "/" as Route },
   { key: "exec", label: "Vue exécutive", href: "/cockpit" as Route },
 ];
-const BASE_BOTTOM: NavItem[] = [{ key: "runs", label: "Runs", href: "/runs" as Route }];
+const BASE_BOTTOM: NavItem[] = [
+  { key: "settings", label: "Paramètres", href: "/settings" as Route },
+  { key: "runs", label: "Runs", href: "/runs" as Route },
+];
 
 function domainNavItems(): NavItem[] {
   try {
