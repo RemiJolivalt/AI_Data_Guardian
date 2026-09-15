@@ -43,3 +43,6 @@ Thumbs.db
 # ---- Legacy sync artifacts (kept on disk, not tracked) ----
 Manual_Inputs/**/.venv/
 Manual_Inputs/**/*.pyc
+
+# TS build info
+*.tsbuildinfo

@@ -33,6 +33,16 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
   impact/effort formula) + before/after Trust Score simulation (`src/core/impact`, `src/core/remediation`).
 - **32/32 tests pass (unit + integration); `next build` green (5 routes).**
 
+## Persistence (done)
+
+- Repository abstraction `AssessmentRepository` with in-memory (local/tests) and **Supabase Postgres**
+  implementations (`src/core/memory/`); factory selects by config (ADR-0003/0008).
+- Demo run persists automatically; resilient (persist failure does not fail the request).
+- Endpoints: `GET /api/assessments` (list), `GET /api/assessments/[id]` (detail); `/runs` history page.
+- SQL migration `supabase/migrations/0001_assessment_runs.sql` + `npm run migrate` runner.
+- **35/35 tests pass; `next build` green (7 routes).**
+- Pending: apply the migration in Supabase (SQL editor) and set the 3 Supabase env vars in Vercel.
+
 ## In progress
 
 - None.
