@@ -4,6 +4,7 @@ import Link from "next/link";
 import { t } from "@/app/_components/theme";
 
 const NAV: { key: string; label: string; href: Route }[] = [
+  { key: "home", label: "Accueil", href: "/" as Route },
   { key: "exec", label: "Vue exécutive", href: "/cockpit" as Route },
   { key: "customer", label: "Customer Trust", href: "/customer" as Route },
   { key: "runs", label: "Runs", href: "/runs" as Route },
@@ -152,6 +153,40 @@ export function Chip({ label, color }: { label: string; color: string }) {
         fontSize: 12,
         fontWeight: 700,
         whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
+/** Non-color-only legend required by the cahier (§8.2, §10.6): fact vs assumption vs simulation. */
+export function Legend() {
+  const item = (glyph: string, label: string, color: string) => (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: t.muted, fontSize: 12 }}>
+      <span style={{ color }}>{glyph}</span> {label}
+    </span>
+  );
+  return (
+    <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 12 }}>
+      {item("\u25CF", "Fait (evidence)", t.ok)}
+      {item("\u25C6", "Hypothèse", t.warn)}
+      {item("\u25B2", "Simulé", t.proposed)}
+    </div>
+  );
+}
+
+export function Tag({ label, color }: { label: string; color: string }) {
+  return (
+    <span
+      style={{
+        background: color,
+        color: "#fff",
+        fontSize: 11,
+        fontWeight: 700,
+        padding: "1px 7px",
+        borderRadius: 4,
+        marginLeft: 6,
       }}
     >
       {label}
