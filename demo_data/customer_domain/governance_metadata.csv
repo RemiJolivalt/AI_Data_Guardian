@@ -1,0 +1,21 @@
+asset_name,column_name,technical_type,business_name,business_description,business_term,data_owner,data_steward,sensitivity,source_system,upstream_asset,transformation,downstream_usage,critical_data_element,status
+CUSTOMER,customer_id,VARCHAR,Customer Identifier,Unique identifier of a customer in the CRM,Customer,marketing.ops@corp.example,data.steward@corp.example,INTERNAL,CRM,CRM_CUSTOMER,ingest,CUSTOMER_360,true,ACTIVE
+CUSTOMER,customer_type,VARCHAR,Customer Type,,Customer Segment,,data.steward@corp.example,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,first_name,VARCHAR,First Name,Given name of an individual customer,Person Name,marketing.ops@corp.example,data.steward@corp.example,PII,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,last_name,VARCHAR,Last Name,Family name of an individual customer,Person Name,marketing.ops@corp.example,data.steward@corp.example,PII,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,email,VARCHAR,Email,,Contact Point,,,,,CRM,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,phone_number,VARCHAR,Phone,,Contact Point,,,,CRM,,,,false,ACTIVE
+CUSTOMER,country_code,VARCHAR,Country,ISO country code of the customer,Country,,,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,postal_code,VARCHAR,Postal Code,Postal code of the customer main address,Address,,,,CRM,,,,false,ACTIVE
+CUSTOMER,creation_date,DATE,Creation Date,Date the customer record was created,Date,marketing.ops@corp.example,,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,false,ACTIVE
+CUSTOMER,customer_status,VARCHAR,Status,Lifecycle status of the customer,Status,marketing.ops@corp.example,data.steward@corp.example,INTERNAL,CRM,CRM_CUSTOMER,,CUSTOMER_360,true,ACTIVE
+CUSTOMER,marketing_consent,VARCHAR,Marketing Consent,,Consent,,,,CRM,,,,true,ACTIVE
+ORDER,order_id,VARCHAR,Order Identifier,Unique identifier of a sales order,Order,sales.ops@corp.example,data.steward@corp.example,INTERNAL,ERP,ERP_ORDER,,REVENUE_KPI,true,ACTIVE
+ORDER,customer_id,VARCHAR,Customer Identifier,Customer the order belongs to,Customer,sales.ops@corp.example,,INTERNAL,ERP,CUSTOMER,join,REVENUE_KPI,true,ACTIVE
+ORDER,order_amount,DECIMAL,Order Amount,Total amount of the order,Amount,sales.ops@corp.example,,INTERNAL,ERP,ERP_ORDER,,REVENUE_KPI,true,ACTIVE
+ORDER,order_status,VARCHAR,Order Status,,Status,,,,ERP,,,,false,ACTIVE
+CONSENT,consent_id,VARCHAR,Consent Identifier,Unique identifier of a consent record,Consent,privacy.office@corp.example,data.steward@corp.example,INTERNAL,CONSENT_MGR,,,COMPLIANCE,true,ACTIVE
+CONSENT,consent_status,VARCHAR,Consent Status,Current status of the consent,Consent,privacy.office@corp.example,,SENSITIVE,CONSENT_MGR,,,COMPLIANCE,true,ACTIVE
+CUSTOMER_ADDRESS,is_primary,BOOLEAN,Primary Address Flag,Indicates the primary address of a customer,Address,,data.steward@corp.example,INTERNAL,CRM,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER_ADDRESS,country_code,VARCHAR,Country,ISO country code of the address,Country,,,INTERNAL,CRM,,,CUSTOMER_360,false,ACTIVE
+CUSTOMER_INTERACTION,sentiment,VARCHAR,Sentiment,,Sentiment,,,,SERVICE_CLOUD,,,,false,DRAFT

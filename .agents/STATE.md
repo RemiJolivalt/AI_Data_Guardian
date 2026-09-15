@@ -43,6 +43,18 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
 - **35/35 tests pass; `next build` green (7 routes).**
 - Pending: apply the migration in Supabase (SQL editor) and set the 3 Supabase env vars in Vercel.
 
+## Scenario 2 — Customer Trust Assessment (in progress)
+
+- Demo data pack `demo_data/customer_domain/`: 5 CRM tables + simulated governance catalog + DQ
+  rules + curated knowledge pack (`is_curated`) + golden expected recommendations + README.
+- Three engineered stories: identity not trusted · consent not governed · orders not linkable.
+- Deterministic **coverage & gap engine** (`src/core/customer/`): metadata/governance/quality/
+  lineage coverage over real columns + gap taxonomy (incl. PII-unclassified, missing expected rule).
+  Overall coverage on the pack ≈ 21% (computed).
+- **43/43 tests pass.**
+- Next: suggestion engine (grounded, PROPOSED + basis + confidence, deterministic fallback),
+  `/customer` cockpit screen, human validation + simulated write-back to `outputs/`.
+
 ## In progress
 
 - None.

@@ -1,0 +1,9 @@
+rule_id,asset_name,column_name,quality_dimension,rule_description,rule_type,expected_pattern,threshold,severity,status,last_result,validation_status
+DQR-0001,CUSTOMER,customer_id,COMPLETENESS,customer_id must always be present,NOT_NULL,,1.0,HIGH,ACTIVE,PASS,VALIDATED
+DQR-0002,CUSTOMER,customer_id,UNIQUENESS,customer_id must be unique,UNIQUE,,1.0,HIGH,ACTIVE,FAIL,VALIDATED
+DQR-0003,CUSTOMER,customer_id,VALIDITY,customer_id must match CUS-XXXXXXXX,PATTERN,^CUS-[0-9]{8}$,0.98,HIGH,ACTIVE,FAIL,VALIDATED
+DQR-0004,CUSTOMER,email,VALIDITY,email must be a valid address,PATTERN,^[^@\s]+@[^@\s]+\.[^@\s]+$,0.98,HIGH,ACTIVE,FAIL,VALIDATED
+DQR-0005,CUSTOMER,country_code,VALIDITY,country_code must be an ISO-2 code,ALLOWED_VALUES,FR;US;GB;DE;IT;PL;PT;RU;ES;NL,1.0,MEDIUM,ACTIVE,FAIL,VALIDATED
+DQR-0006,ORDER,order_amount,VALIDITY,order_amount must be zero or positive,RANGE,>=0,1.0,HIGH,ACTIVE,FAIL,VALIDATED
+DQR-0007,CUSTOMER_ADDRESS,valid_to,CONSISTENCY,valid_to must be on or after valid_from,EXPRESSION,valid_to>=valid_from,1.0,MEDIUM,ACTIVE,FAIL,VALIDATED
+DQR-0008,CUSTOMER,customer_status,VALIDITY,customer_status must be an allowed value,ALLOWED_VALUES,ACTIVE;INACTIVE;PROSPECT;CLOSED,1.0,LOW,ACTIVE,PASS,VALIDATED

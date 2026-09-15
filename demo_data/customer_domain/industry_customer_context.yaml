@@ -1,0 +1,74 @@
+# Curated industry knowledge pack (is_curated: true). The AI grounds suggestions in this pack
+# and cites the entry id; it never invents domain facts. Versioned like scoring config.
+knowledge_pack_id: KP-RETAIL-CUSTOMER
+version: "1.0.0"
+is_curated: true
+industry: Retail
+domain: Customer
+
+definition: >
+  A customer is a person or legal entity with a persistent identity, one or more contact
+  points, transactions or interactions, consent preferences, and a lifecycle status.
+
+# Declared (not auto-discovered) reference lineage for the Customer 360 domain.
+lineage_chain:
+  - CRM_CUSTOMER
+  - CUSTOMER_CLEANSED
+  - CUSTOMER_360
+  - MARKETING_SEGMENTATION
+
+columns:
+  customer_id:
+    canonical_description: "Unique and stable identifier of a customer across the CRM."
+    is_pii: false
+    expected_pattern: '^CUS-[0-9]{8}$'
+    expected_rules: [NOT_NULL, UNIQUE, PATTERN]
+    critical: true
+  customer_type:
+    canonical_description: "Nature of the customer, individual (B2C) or organisation (B2B)."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: false
+  first_name:
+    canonical_description: "Given name of an individual customer."
+    is_pii: true
+    critical: false
+  last_name:
+    canonical_description: "Family name of an individual customer."
+    is_pii: true
+    critical: false
+  email:
+    canonical_description: "Primary email contact point of the customer."
+    is_pii: true
+    expected_pattern: '^[^@\s]+@[^@\s]+\.[^@\s]+$'
+    expected_rules: [PATTERN]
+    critical: false
+  phone_number:
+    canonical_description: "Primary telephone contact point of the customer."
+    is_pii: true
+    expected_rules: [PATTERN]
+    critical: false
+  country_code:
+    canonical_description: "ISO-2 country code associated with the customer."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: false
+  postal_code:
+    canonical_description: "Postal code of the customer's primary address."
+    is_pii: true
+    critical: false
+  marketing_consent:
+    canonical_description: "Whether the customer consented to marketing communication."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: true
+  customer_status:
+    canonical_description: "Lifecycle status of the customer (active, inactive, prospect, closed)."
+    is_pii: false
+    expected_rules: [ALLOWED_VALUES]
+    critical: true
+
+business_risks:
+  - "Unreliable customer identity fragments the Customer 360 view and misattributes orders."
+  - "Ungoverned consent creates compliance exposure for marketing activation."
+  - "Orders without a resolvable customer distort revenue and segmentation."

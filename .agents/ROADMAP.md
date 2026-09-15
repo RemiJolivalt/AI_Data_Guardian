@@ -41,6 +41,18 @@ AI Readiness · lineage · business impact (SIMULATED) · remediation + before/a
 - [ ] Lineage view
 - [ ] Human review center (accept/reject/correct)
 
+## Scenario 2 — Customer Trust Assessment (Data Knowledge Co-pilot)
+
+CRM domain as playing field; the product stays AI Data Guardian. Reuses the engine and lights up
+METADATA/LINEAGE.
+
+- [x] Demo data pack (5 tables + simulated catalog + DQ rules + curated knowledge pack + golden recs)
+- [x] Deterministic coverage & gap engine (metadata/governance/quality/lineage + gap taxonomy)
+- [ ] Grounded suggestion engine (PROPOSED + basis + confidence; deterministic fallback)
+- [ ] `/customer` executive cockpit + column diagnostic + remediation inbox
+- [ ] Human validation + simulated write-back export to `outputs/`
+- [ ] Feed coverage into the Trust Score (fill METADATA/LINEAGE dimensions)
+
 ## Phase 3 — Executive Demonstrator
 
 Storytelling · report export (MD/JSON/PDF) · guided scenario · agent run logs · UX polish · E2E.

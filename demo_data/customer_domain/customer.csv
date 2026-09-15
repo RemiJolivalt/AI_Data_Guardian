@@ -1,0 +1,17 @@
+customer_id,customer_type,first_name,last_name,company_name,email,phone_number,country_code,postal_code,preferred_language,creation_date,last_update_date,customer_status,marketing_consent,source_system
+CUS-00000001,B2C,Marie,Dupont,,marie.dupont@example.com,+33 6 12 34 56 78,FR,75001,fr,2024-01-05,2025-02-01,ACTIVE,Y,CRM
+CUS-00000002,B2C,Jean,Martin,,jean.martin@example.com,0033612345678,FR,69002,fr,2024-02-11,2025-03-03,ACTIVE,N,CRM
+CUS-00000002,B2C,Jean,Martin,,jean.martin@example.com,06 12 34 56 78,FR,69002,fr,2024-02-11,2025-03-03,ACTIVE,N,CRM
+CUS-00000003,B2C,Sofia,Rossi,,sofia.rossi_example.com,+39 340 1234567,,20100,it,2024-03-20,2025-01-15,ACTIVE,Y,CRM
+CUS-00000004,B2B,,,Globex SA,contact@globex.example,+33 1 44 55 66 77,FR,75008,fr,2023-11-02,2025-02-20,ACTIVE,N,ERP
+CUS-00000005,B2C,Liu,Wei,Hooli Inc,liu.wei@example.com,+1 415 555 0100,US,94105,en,2024-05-10,2025-04-01,ACTIVE,,CRM
+CUS-00000006,B2C,Anna,Nowak,,anna.nowak@example.com,+48 512 345 678,PL,00-001,pl,2024-06-01,2025-03-30,INACTIVE,N,CRM
+CUS-00000007,B2C,Paulo,Silva,,paulo.silva@example.com,,PT,1000-001,pt,2024-06-15,2025-02-11,ACTIVE,Y,CRM
+CUS-8,B2C,Emma,Brown,,emma.brown@example.com,+44 20 7946 0958,GB,EC1A 1BB,en,2024-07-01,2025-04-10,ACTIVE,Y,CRM
+CUS-00000009,B2C,Lucas,Meyer,,lucas.meyer@example.com,+49 152 12345678,DE,10115,de,2024-08-05,2025-03-18,ACTIVE,N,CRM
+CUS-00000010,B2C,Chloe,Bernard,,chloe.bernard@example.com,+33 6 98 76 54 32,FR,33000,fr,2024-09-09,2025-04-02,ACTIVE,Y,CRM
+CUS-00000011,B2B,,,Initech,,+1 212 555 0198,US,10001,en,2023-09-12,2025-01-05,ACTIVE,N,ERP
+CUS-00000012,B2C,Nadia,Haddad,,nadia.haddad@example.com,+33 7 11 22 33 44,FR,13001,fr,2024-10-01,2025-04-12,PROSPECT,Y,CRM
+CUS-00000013,B2C,Tom,Nguyen,,tom.nguyen@example.com,+33 6 55 44 33 22,FR,,fr,2024-10-20,2025-04-15,ACTIVE,N,CRM
+CUS-00000014,B2C,Olga,Ivanova,,olga.ivanova@example.com,+7 495 123 45 67,RU,101000,ru,2024-11-01,2025-03-22,ACTIVE,Y,CRM
+CUS-00000015,B2C,Marco,Conti,,marco.conti@example.com,+39 06 1234 5678,IT,00100,it,2024-11-15,2025-04-05,ACTIVE,,CRM

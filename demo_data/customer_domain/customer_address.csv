@@ -1,0 +1,12 @@
+address_id,customer_id,address_type,street,city,postal_code,country_code,valid_from,valid_to,is_primary
+ADR-0001,CUS-00000001,BILLING,10 Rue de Rivoli,Paris,75001,FR,2024-01-05,,true
+ADR-0002,CUS-00000001,SHIPPING,22 Avenue Foch,Paris,75116,FR,2024-01-05,,true
+ADR-0003,CUS-00000002,BILLING,5 Cours Vitton,Lyon,69006,FR,2024-02-11,,true
+ADR-0004,CUS-00000004,BILLING,1 Place Vendome,Paris,75008,FR,2023-11-02,,true
+ADR-0005,CUS-00000005,SHIPPING,500 Market St,San Francisco,94105,US,2024-05-10,,true
+ADR-0006,CUS-00000006,BILLING,12 Ulica Nowa,Warsaw,00-001,PL,2024-06-01,2023-12-31,true
+ADR-0007,CUS-00000009,BILLING,3 Torstrasse,Berlin,10115,DE,2024-08-05,,true
+ADR-0008,CUS-00000010,BILLING,8 Cours de l'Intendance,Bordeaux,33000,FR,2024-09-09,,false
+ADR-0009,CUS-00000012,SHIPPING,4 La Canebiere,Marseille,13001,FR,2024-10-01,,true
+ADR-0010,CUS-00000014,BILLING,9 Tverskaya,Moscow,101000,,2024-11-01,,true
+ADR-0011,CUS-00000015,BILLING,7 Via del Corso,Rome,00100,IT,2024-11-15,,true

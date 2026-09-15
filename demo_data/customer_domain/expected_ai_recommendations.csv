@@ -1,0 +1,9 @@
+recommendation_id,type,asset_name,column_name,proposed_value,basis,confidence,story
+REC-EXP-01,DESCRIPTION,CUSTOMER,email,Primary email contact point of the customer.,KP-RETAIL-CUSTOMER:email,0.9,identity
+REC-EXP-02,PII_CLASSIFICATION,CUSTOMER,email,PII,KP-RETAIL-CUSTOMER:email,0.95,identity
+REC-EXP-03,DQ_RULE,CUSTOMER,email,PATTERN ^[^@\s]+@[^@\s]+\.[^@\s]+$,KP-RETAIL-CUSTOMER:email,0.9,identity
+REC-EXP-04,PII_CLASSIFICATION,CUSTOMER,phone_number,PII,KP-RETAIL-CUSTOMER:phone_number,0.9,identity
+REC-EXP-05,DESCRIPTION,CUSTOMER,marketing_consent,Whether the customer consented to marketing communication.,KP-RETAIL-CUSTOMER:marketing_consent,0.88,consent
+REC-EXP-06,DQ_RULE,CUSTOMER,marketing_consent,ALLOWED_VALUES Y;N,KP-RETAIL-CUSTOMER:marketing_consent,0.85,consent
+REC-EXP-07,DQ_RULE,ORDER,customer_id,REFERENTIAL_INTEGRITY ORDER.customer_id in CUSTOMER.customer_id,KP-RETAIL-CUSTOMER:customer_id,0.92,order_integrity
+REC-EXP-08,LINEAGE,CUSTOMER,customer_id,CRM_CUSTOMER -> CUSTOMER_CLEANSED -> CUSTOMER_360,KP-RETAIL-CUSTOMER:lineage_chain,0.8,identity
