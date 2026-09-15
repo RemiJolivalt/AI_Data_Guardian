@@ -29,7 +29,9 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
   (`src/core/scoring/engine.ts`).
 - Orchestrator `runAssessment` -> NOT_TRUSTED / NOT_READY (`src/core/assessment/runAssessment.ts`).
 - `GET /api/assessments/demo` + `/cockpit` server page ("Why not trusted?").
-- **25/25 tests pass (unit + integration); `next build` green (5 routes).**
+- Business impact (SIMULATED LOW/CENTRAL/HIGH exposure) + prioritized remediation plan (versioned
+  impact/effort formula) + before/after Trust Score simulation (`src/core/impact`, `src/core/remediation`).
+- **32/32 tests pass (unit + integration); `next build` green (5 routes).**
 
 ## In progress
 
@@ -50,8 +52,8 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
 
 ## Next best actions (Phase 1)
 
-1. Business impact / exposure scenarios (SIMULATED) for the duplicate double-counting.
-2. Remediation plan + before/after simulation (US-060, US-061).
+1. Persist runs via the repository (SQLite local / Supabase deployed) — exercises Supabase wiring.
+2. Interactive `POST /recommendations/{id}/simulate` (accept an action -> live before/after).
 3. Lineage view (Source -> Dataset -> KPI -> Use case).
-4. Persist runs via the repository (SQLite local / Supabase deployed).
-5. Add the trusted counter-scenario and E2E (Playwright) on the cockpit.
+4. Trusted counter-scenario + Playwright E2E on the cockpit.
+5. Human Review Center (accept/reject/correct a finding).

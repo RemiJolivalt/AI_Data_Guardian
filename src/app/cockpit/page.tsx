@@ -18,7 +18,8 @@ function pct(value: number | null): string {
 
 export default function CockpitPage() {
   const result = runAssessment({ rootDir: process.cwd() });
-  const { score, ai_readiness, findings, evidence } = result;
+  const { score, simulated_score, ai_readiness, findings, evidence, impact, remediation } = result;
+  const central = impact.find((s) => s.label === "CENTRAL");
 
   return (
     <main style={{ fontFamily: "system-ui, sans-serif", padding: "2rem", maxWidth: 900 }}>
@@ -29,6 +30,29 @@ export default function CockpitPage() {
         <Metric label="Trust Score" value={pct(score.overall)} sub={`[${STATUS_LABEL[score.status]}]`} />
         <Metric label="AI Readiness" value="" sub={`[${ai_readiness.status}]`} />
         <Metric label="Score version" value={score.score_version} sub={`${findings.length} findings`} />
+      </section>
+
+      <section
+        style={{
+          background: "#faf7ef",
+          border: "1px solid #e6dcc0",
+          borderRadius: 8,
+          padding: "0.75rem 1rem",
+          margin: "0 0 2rem",
+        }}
+      >
+        <strong>Business exposure</strong>{" "}
+        <span style={{ background: "#8a6d3b", color: "#fff", fontSize: 11, padding: "1px 6px", borderRadius: 4 }}>
+          SIMULATED
+        </span>
+        <p style={{ margin: "0.4rem 0 0" }}>
+          Central estimate: <strong>{central ? `${central.estimated_value?.toLocaleString()} EUR` : "—"}</strong>{" "}
+          double-counted (range{" "}
+          {impact.map((s) => `${s.label} ${s.estimated_value?.toLocaleString()}`).join(" · ")}).
+        </p>
+        <p style={{ margin: "0.3rem 0 0", color: "#6b5a33", fontSize: 12 }}>
+          {central?.assumptions.join(" ")}
+        </p>
       </section>
 
       <h2>Why not trusted?</h2>
@@ -75,6 +99,39 @@ export default function CockpitPage() {
           ))}
         </tbody>
       </table>
+
+      <h2>Remediation plan</h2>
+      <p style={{ margin: "0 0 0.5rem" }}>
+        Trust today <strong>{pct(score.overall)}</strong> [{STATUS_LABEL[score.status]}] &rarr;{" "}
+        after remediation{" "}
+        <strong>{pct(simulated_score.overall)}</strong> [{STATUS_LABEL[simulated_score.status]}]{" "}
+        <span style={{ background: "#8a6d3b", color: "#fff", fontSize: 11, padding: "1px 6px", borderRadius: 4 }}>
+          SIMULATED
+        </span>
+      </p>
+      <table style={{ borderCollapse: "collapse", width: "100%" }}>
+        <thead>
+          <tr>
+            <Th>Priority</Th>
+            <Th>Action</Th>
+            <Th>Owner</Th>
+            <Th>Effort</Th>
+            <Th>Impact</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {remediation.map((a) => (
+            <tr key={a.action_id}>
+              <Td>{a.priority}</Td>
+              <Td>{a.target_problem}</Td>
+              <Td>{a.owner_type}</Td>
+              <Td>{a.effort}</Td>
+              <Td>{a.impact}</Td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <p style={{ color: "#888", fontSize: 12, marginTop: 16 }}>
         Deterministic result. Facts are evidence-backed; unassessed dimensions are shown as
         Insufficient evidence, never guessed.

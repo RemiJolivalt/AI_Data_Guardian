@@ -6,6 +6,9 @@ import { sha256 } from "@/core/ingestion/hash";
 import { loadScoringConfig } from "@/core/scoring/config";
 import { computeTrustScore } from "@/core/scoring/engine";
 import { evaluateRevenueScenario, type Catalog } from "@/core/assessment/rules";
+import { computeImpactScenarios } from "@/core/impact/impact";
+import { buildRemediationPlan } from "@/core/remediation/plan";
+import { simulateAfterRemediation } from "@/core/remediation/simulate";
 import type { AssessmentResult } from "@/core/assessment/types";
 
 /**
@@ -83,6 +86,17 @@ export function runAssessment(options: RunOptions): AssessmentResult {
     blockers: evaluation.findings.map((finding) => finding.title),
   });
 
+  const impact = computeImpactScenarios(assessmentId, transactions);
+  const plan = buildRemediationPlan(assessmentId, evaluation.findings);
+  const simulated_score = simulateAfterRemediation({
+    assessmentId,
+    findings: evaluation.findings,
+    resolvedFindingIds: evaluation.findings.map((f) => f.finding_id),
+    evaluatedDimensions: evaluation.evaluatedDimensions,
+    config,
+    now,
+  });
+
   return {
     assessment_id: assessmentId,
     scenario: "revenue_forecasting_agent",
@@ -93,5 +107,9 @@ export function runAssessment(options: RunOptions): AssessmentResult {
     findings: evaluation.findings,
     score,
     ai_readiness,
+    impact,
+    recommendations: plan.recommendations,
+    remediation: plan.actions,
+    simulated_score,
   };
 }

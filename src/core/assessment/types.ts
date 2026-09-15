@@ -1,5 +1,5 @@
 import type { Evidence, Finding, Score, AIReadiness } from "@/core/domain";
-import type { DataSource } from "@/core/domain";
+import type { DataSource, ImpactScenario, Recommendation, RemediationAction } from "@/core/domain";
 
 /** Aggregated, serializable output of one assessment run (feeds the API and the cockpit). */
 export interface AssessmentResult {
@@ -12,4 +12,9 @@ export interface AssessmentResult {
   findings: Finding[];
   score: Score;
   ai_readiness: AIReadiness;
+  impact: ImpactScenario[];
+  recommendations: Recommendation[];
+  remediation: RemediationAction[];
+  /** Trust Score projected if every remediation action is completed. Always SIMULATED. */
+  simulated_score: Score;
 }

@@ -31,6 +31,22 @@ describe("runAssessment — Revenue Forecasting demo (integration)", () => {
     expect(result.ai_readiness.status).toBe("NOT_READY");
   });
 
+  it("quantifies a SIMULATED exposure and a prioritized remediation plan", () => {
+    expect(result.impact.map((s) => s.label)).toEqual(["LOW", "CENTRAL", "HIGH"]);
+    expect(result.impact.every((s) => s.simulated)).toBe(true);
+    expect(result.remediation).toHaveLength(4);
+    for (let i = 1; i < result.remediation.length; i++) {
+      expect(result.remediation[i - 1]!.priority).toBeGreaterThanOrEqual(result.remediation[i]!.priority);
+    }
+  });
+
+  it("simulates a SIMULATED TRUSTED score after full remediation", () => {
+    expect(result.simulated_score.simulated).toBe(true);
+    expect(result.simulated_score.status).toBe("TRUSTED");
+    expect(result.simulated_score.overall).not.toBeNull();
+    expect(result.simulated_score.overall! > (result.score.overall ?? 0)).toBe(true);
+  });
+
   it("is fully deterministic for the same inputs", () => {
     const again = runAssessment({ rootDir, now, assessmentId: "ASM-DEMO" });
     expect(again).toEqual(result);

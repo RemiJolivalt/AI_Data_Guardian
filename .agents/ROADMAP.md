@@ -35,6 +35,12 @@ Golden scenario + deterministic profiling + Findings/Evidence + Trust Score + mi
 AI Readiness · lineage · business impact (SIMULATED) · remediation + before/after simulation
 · human review center.
 
+- [x] Business impact (SIMULATED LOW/CENTRAL/HIGH exposure)
+- [x] Remediation plan (versioned impact/effort priority)
+- [x] Before/after Trust Score simulation
+- [ ] Lineage view
+- [ ] Human review center (accept/reject/correct)
+
 ## Phase 3 — Executive Demonstrator
 
 Storytelling · report export (MD/JSON/PDF) · guided scenario · agent run logs · UX polish · E2E.
