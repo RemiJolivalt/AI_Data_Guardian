@@ -8,7 +8,9 @@ type NavItem = { key: string; label: string; href: Route };
 
 const BASE_TOP: NavItem[] = [
   { key: "home", label: "Accueil", href: "/" as Route },
+  { key: "decision", label: "Trust Copilot", href: "/decision" as Route },
   { key: "exec", label: "Vue exécutive", href: "/cockpit" as Route },
+  { key: "certificate", label: "Certificat", href: "/certificate" as Route },
 ];
 const BASE_BOTTOM: NavItem[] = [
   { key: "settings", label: "Paramètres", href: "/settings" as Route },

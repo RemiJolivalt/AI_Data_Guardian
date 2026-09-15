@@ -7,6 +7,8 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/": ["./demo_data/**", "./config/**"],
     "/cockpit": ["./demo_data/**", "./config/**"],
+    "/decision": ["./demo_data/**", "./config/**"],
+    "/certificate": ["./demo_data/**", "./config/**"],
     "/domain/[id]": ["./demo_data/**", "./config/**"],
     "/settings": ["./demo_data/**", "./config/**"],
     "/api/domain/[id]/validate": ["./demo_data/**", "./config/**"],

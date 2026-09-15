@@ -85,6 +85,26 @@ export default function HomePage() {
         We don’t assess data quality. We quantify trust for decisions, analytics and AI.
       </p>
 
+      <Link
+        href={"/decision" as Route}
+        style={{
+          display: "block",
+          marginTop: 28,
+          maxWidth: 980,
+          background: `linear-gradient(90deg, ${t.cta}, #3a6ef0)`,
+          borderRadius: 14,
+          padding: "1.5rem",
+          textDecoration: "none",
+          color: "#fff",
+        }}
+      >
+        <span style={{ color: "#cfe0ff", fontSize: 12, fontWeight: 700, letterSpacing: 1 }}>TRUST COPILOT</span>
+        <h2 style={{ margin: "0.4rem 0", fontSize: 26 }}>Can I trust this decision?</h2>
+        <p style={{ margin: 0, color: "#eaf0fb" }}>
+          Posez la question — obtenez un verdict, l’exposition €, les feux rouges, le plan et le certificat.
+        </p>
+      </Link>
+
       <p style={{ color: t.accent, fontWeight: 700, margin: "2.5rem 0 0.75rem" }}>Scénario par décision (KPI)</p>
       <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, maxWidth: 980 }}>
         <ScenarioCard

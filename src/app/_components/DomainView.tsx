@@ -67,6 +67,18 @@ export function DomainView({
         </p>
       </Card>
 
+      <Card style={{ marginBottom: 16, borderLeft: `4px solid ${t.proposed}` }}>
+        <h2 style={{ margin: "0 0 4px", fontSize: 18, color: t.title }}>Why AI cannot trust this object</h2>
+        <p style={{ margin: "0 0 6px", color: t.text }}>
+          AI Agent confidence : <strong style={{ color: overall < 0.5 ? t.danger : t.warn }}>{pct(overall)}</strong> —
+          raisons : {r.gap_counts.description} descriptions manquantes, {r.gap_counts.pii} PII non classées,{" "}
+          {r.gap_counts.lineage} lineage non déclaré.
+        </p>
+        <p style={{ margin: 0, color: t.muted, fontSize: 13 }}>
+          Conséquences potentielles : recommandation erronée · risque d’hallucination de l’agent · reporting incorrect.
+        </p>
+      </Card>
+
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
         <SuggestionInbox domainId={r.domain_id} suggestions={r.suggestions} storyLabels={storyLabels} />
 
