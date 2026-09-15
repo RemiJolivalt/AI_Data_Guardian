@@ -22,6 +22,14 @@ precedes any LLM use.
 Golden scenario + deterministic profiling + Findings/Evidence + Trust Score + minimal cockpit +
 "Why not trusted?" explanation.
 
+- [x] Ingestion (CSV) + source hashing
+- [x] Deterministic profiling (duplicates, nulls, freshness)
+- [x] Findings + Evidence rule evaluator
+- [x] Trust Score engine (versioned) + AI readiness
+- [x] `GET /api/assessments/demo` + `/cockpit` "Why not trusted?"
+- [ ] Persist assessment runs via the repository (SQLite/Supabase)
+- [ ] Trusted counter-scenario + Playwright E2E
+
 ## Phase 2 — AI Trust & Remediation
 
 AI Readiness · lineage · business impact (SIMULATED) · remediation + before/after simulation

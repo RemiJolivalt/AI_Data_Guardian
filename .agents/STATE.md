@@ -4,8 +4,8 @@ Living snapshot of where the build is. Update at the end of every story.
 
 ## Current phase
 
-**Phase 0 — Foundation.** Gate G1 approved (2026-09-15). Stack: **TypeScript / Next.js / Vercel /
-Supabase** (ADR-0008, ADR-0009).
+**Phase 1 — Trusted Data Assessment (vertical slice).** Deterministic pipeline runs end to end on
+the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Vercel / Supabase**.
 
 ## Done
 
@@ -18,6 +18,18 @@ Supabase** (ADR-0008, ADR-0009).
 - **F0-05** synthetic golden scenario (`demo_data/`) + golden fixture.
 - Next.js app shell + `GET /health`; Supabase client stub.
 - Toolchain: Vitest, `tsc`, ESLint/Prettier configured. **13/13 unit tests pass; typecheck clean.**
+
+## Phase 1 slice (done)
+
+- Ingestion: dependency-free CSV parser + SHA-256 source hashing (`src/core/ingestion/`).
+- Profiling: null/distinct counts, duplicate detection, freshness age (`src/core/profiling/`).
+- Deterministic rule evaluator -> Findings + Evidence for the Revenue scenario
+  (`src/core/assessment/rules.ts`).
+- Trust Score engine consuming `scoring.yaml`; unassessed dims -> INSUFFICIENT_EVIDENCE
+  (`src/core/scoring/engine.ts`).
+- Orchestrator `runAssessment` -> NOT_TRUSTED / NOT_READY (`src/core/assessment/runAssessment.ts`).
+- `GET /api/assessments/demo` + `/cockpit` server page ("Why not trusted?").
+- **25/25 tests pass (unit + integration); `next build` green (5 routes).**
 
 ## In progress
 
@@ -38,7 +50,8 @@ Supabase** (ADR-0008, ADR-0009).
 
 ## Next best actions (Phase 1)
 
-1. Ingestion + deterministic profiling of the demo scenario.
-2. Findings/Evidence generation against the DQ policy + governance rules.
-3. Trust Score engine consuming `config/scoring.yaml`.
-4. Minimal Executive Cockpit + "Why not trusted?" screen.
+1. Business impact / exposure scenarios (SIMULATED) for the duplicate double-counting.
+2. Remediation plan + before/after simulation (US-060, US-061).
+3. Lineage view (Source -> Dataset -> KPI -> Use case).
+4. Persist runs via the repository (SQLite local / Supabase deployed).
+5. Add the trusted counter-scenario and E2E (Playwright) on the cockpit.
