@@ -9,6 +9,7 @@ import { evaluateRevenueScenario, type Catalog } from "@/core/assessment/rules";
 import { computeImpactScenarios } from "@/core/impact/impact";
 import { buildRemediationPlan } from "@/core/remediation/plan";
 import { simulateAfterRemediation } from "@/core/remediation/simulate";
+import { buildTrustSimulation } from "@/core/remediation/prioritize";
 import type { AssessmentResult } from "@/core/assessment/types";
 
 /**
@@ -96,6 +97,15 @@ export function runAssessment(options: RunOptions): AssessmentResult {
     config,
     now,
   });
+  const trust_simulation = buildTrustSimulation({
+    assessmentId,
+    findings: evaluation.findings,
+    evaluatedDimensions: evaluation.evaluatedDimensions,
+    config,
+    actions: plan.actions,
+    resolves: plan.resolves,
+    now,
+  });
 
   return {
     assessment_id: assessmentId,
@@ -111,5 +121,6 @@ export function runAssessment(options: RunOptions): AssessmentResult {
     recommendations: plan.recommendations,
     remediation: plan.actions,
     simulated_score,
+    trust_simulation,
   };
 }

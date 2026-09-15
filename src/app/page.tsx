@@ -81,6 +81,9 @@ export default function HomePage() {
         Puis-je faire confiance à cette donnée pour cet usage ? Quel est le risque métier ? Quelles
         actions donnent le plus de confiance au moindre effort ?
       </p>
+      <p style={{ color: t.accent, fontStyle: "italic", marginTop: 14, maxWidth: 720 }}>
+        We don’t assess data quality. We quantify trust for decisions, analytics and AI.
+      </p>
 
       <p style={{ color: t.accent, fontWeight: 700, margin: "2.5rem 0 0.75rem" }}>Scénario par décision (KPI)</p>
       <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, maxWidth: 980 }}>

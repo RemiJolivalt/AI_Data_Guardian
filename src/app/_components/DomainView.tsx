@@ -30,10 +30,10 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
           sub={`${r.totals.columns} colonnes · ${r.totals.assets} actifs`}
           subColor={overall < 0.5 ? t.danger : t.ok}
         />
-        <Stat label="Metadata" value={pct(r.coverage.metadata.ratio)} />
-        <Stat label="Governance" value={pct(r.coverage.governance.ratio)} />
-        <Stat label="Quality" value={pct(r.coverage.quality.ratio)} />
-        <Stat label="Lineage" value={pct(r.coverage.lineage.ratio)} />
+        <Stat label="Business Glossary" value={pct(r.coverage.metadata.ratio)} sub="Metadata" />
+        <Stat label="Accountability" value={pct(r.coverage.governance.ratio)} sub="Governance" />
+        <Stat label="Control Coverage" value={pct(r.coverage.quality.ratio)} sub="Quality" />
+        <Stat label="Impact Traceability" value={pct(r.coverage.lineage.ratio)} sub="Lineage" />
         <Stat label="Suggestions IA" value={String(r.suggestions.length)} sub="à valider" subColor={t.proposed} />
       </section>
 
@@ -88,10 +88,10 @@ export function DomainView({ result: r }: { result: DomainAssessmentResult }) {
 
         <Card>
           <h2 style={{ margin: "0 0 10px", fontSize: 18, color: t.title }}>Couverture par dimension</h2>
-          <Bar label="Metadata" ratio={r.coverage.metadata.ratio} />
-          <Bar label="Governance" ratio={r.coverage.governance.ratio} />
-          <Bar label="Quality" ratio={r.coverage.quality.ratio} />
-          <Bar label="Lineage" ratio={r.coverage.lineage.ratio} />
+          <Bar label="Business Glossary (Metadata)" ratio={r.coverage.metadata.ratio} />
+          <Bar label="Accountability (Governance)" ratio={r.coverage.governance.ratio} />
+          <Bar label="Control Coverage (Quality)" ratio={r.coverage.quality.ratio} />
+          <Bar label="Impact Traceability (Lineage)" ratio={r.coverage.lineage.ratio} />
           <h3 style={{ margin: "16px 0 6px", fontSize: 15, color: t.title }}>Gaps détectés</h3>
           <ul style={{ margin: 0, paddingLeft: 18, color: t.text, fontSize: 14, lineHeight: 1.8 }}>
             <li>{r.gap_counts.description} descriptions manquantes</li>

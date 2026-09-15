@@ -18,8 +18,10 @@ const pct = (value: number | null): string => (value === null ? "—" : `${Math.
 
 export default function CockpitPage() {
   const result = runAssessment({ rootDir: process.cwd() });
-  const { score, simulated_score, ai_readiness, findings, evidence, impact, remediation } = result;
+  const { score, simulated_score, ai_readiness, findings, evidence, impact, remediation, trust_simulation } = result;
   const central = impact.find((s) => s.label === "CENTRAL");
+  const sim = trust_simulation;
+  const recommended = sim.actions.filter((a) => sim.recommended_action_ids.includes(a.action_id));
   const statusColor =
     score.status === "NOT_TRUSTED" ? t.danger : score.status === "AT_RISK" ? t.warn : t.ok;
 
@@ -31,6 +33,9 @@ export default function CockpitPage() {
       scope="Revenue Forecasting"
     >
       <Legend />
+      <p style={{ margin: "0 0 14px", color: t.muted, fontStyle: "italic" }}>
+        We don’t assess data quality. We quantify trust for decisions, analytics and AI.
+      </p>
       <section
         style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 16 }}
       >
@@ -54,6 +59,38 @@ export default function CockpitPage() {
         />
         <Stat label="Findings" value={String(findings.length)} sub={`score ${score.score_version}`} />
       </section>
+
+      <Card style={{ marginBottom: 16, borderLeft: `4px solid ${t.proposed}` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h2 style={{ margin: 0, fontSize: 18, color: t.title }}>
+            Trust Improvement Simulator <Tag label="SIMULÉ" color={t.proposed} />
+          </h2>
+          <span style={{ fontSize: 13, color: t.muted }}>
+            Plan recommandé par l’IA · cible {Math.round(sim.target * 100)}%
+          </span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, margin: "12px 0" }}>
+          <Big label="Trust" value={`${Math.round(sim.baseline_overall * 100)}% → ${Math.round(sim.projected_overall * 100)}%`} color={t.ok} />
+          <Big label="Effort" value={`${sim.total_effort_days} j`} color={t.title} />
+          <Big label="Exposition" value={`€${central?.estimated_value?.toLocaleString() ?? "—"} → €0`} color={t.ok} />
+          <Big label="AI Readiness" value={`${ai_readiness.status.replace(/_/g, " ")} → READY`} color={t.ok} />
+        </div>
+        <p style={{ margin: "0 0 6px", fontWeight: 700, color: t.title }}>Recommandé par l’IA</p>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          {recommended.map((a) => (
+            <li key={a.action_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0", borderBottom: `1px solid ${t.border}` }}>
+              <span style={{ color: t.ok }}>✔</span>
+              <span style={{ flex: 1 }}>{a.target_problem}</span>
+              <Chip label={`+${Math.round(a.trust_gain * 100)}% trust`} color={t.ok} />
+              <Chip label={`${a.effort_days} j`} color={t.muted} />
+            </li>
+          ))}
+        </ul>
+        <p style={{ color: t.muted, fontSize: 12, marginTop: 10 }}>
+          Gains et efforts calculés (marginaux) ; l’exposition €0 et READY sont des projections après
+          exécution du plan. Aucune valeur comptable certifiée.
+        </p>
+      </Card>
 
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16, marginBottom: 16 }}>
         <Card>
@@ -153,7 +190,15 @@ function Th({ children }: { children: React.ReactNode }) {
     </th>
   );
 }
-
 function Td({ children }: { children: React.ReactNode }) {
   return <td style={{ borderBottom: `1px solid ${t.border}`, padding: "6px 8px", fontSize: 14 }}>{children}</td>;
+}
+
+function Big({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div style={{ background: "#f7f9fc", border: `1px solid ${t.border}`, borderRadius: 8, padding: "0.6rem 0.8rem" }}>
+      <div style={{ color: t.muted, fontSize: 12 }}>{label}</div>
+      <div style={{ color, fontSize: 18, fontWeight: 800, marginTop: 2 }}>{value}</div>
+    </div>
+  );
 }
