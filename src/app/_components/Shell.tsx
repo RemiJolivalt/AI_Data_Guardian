@@ -7,12 +7,12 @@ import { ModeToggle } from "@/app/_components/ModeToggle";
 
 type NavItem = { key: string; label: string; href: Route };
 
-// Primary demonstrator navigation: the four screens of the virtuous circle.
+// Primary navigation = capabilities, not steps. Analyse Guardian and Décisions expertes are
+// internal steps reached from the Trust Cockpit, not top-level entries.
 const BASE_TOP: NavItem[] = [
-  { key: "cockpit", label: "Cockpit de confiance", href: "/" as Route },
-  { key: "map", label: "Carte du patrimoine", href: "/map" as Route },
-  { key: "analysis", label: "Analyse Guardian", href: "/analysis" as Route },
-  { key: "decisions", label: "Décisions expertes", href: "/expert-decisions" as Route },
+  { key: "cockpit", label: "Trust Cockpit", href: "/" as Route },
+  { key: "learning", label: "Learning Engine", href: "/learning" as Route },
+  { key: "scope", label: "Data Scope", href: "/map" as Route },
 ];
 // Admin screens: full mode only, kept off the primary story.
 const BASE_BOTTOM: NavItem[] = [

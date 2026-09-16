@@ -83,6 +83,16 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
   qualitative (Faible/Modérée/Élevée), no invented €. Certificate route kept, off primary nav.
   **74/74 tests pass (7 new in `tests/unit/dataMap.test.ts`); typecheck clean; `next build` green.**
 
+- **Menu optimization (2026-09-16).** Narrative-first menu collapsed to **3 capabilities**: Trust Cockpit
+  (`/`) · Learning Engine (`/learning`) · Data Scope (`/map`). Analyse Guardian (`/analysis`) and
+  Décisions expertes (`/expert-decisions`) are now **internal steps** of the cockpit (off primary nav,
+  still reachable). New deterministic engines: `computeGuardianCoverage` (`src/core/data-map/coverage.ts`,
+  control coverage = in-place/recommended, +recommended-next object) and `summarizeLearning`
+  (`src/core/data-map/learning.ts`, KPIs + reuse history). Data Scope shows computed Guardian Coverage %
+  and the next object to protect; Learning Engine shows proposed/validated/reused/enriched from the
+  decisions store. **78/78 tests pass (4 new in `tests/unit/dataMapCoverage.test.ts`); typecheck clean;
+  `next build` green (all routes); lint clean.**
+
 ## Blocked / awaiting decision
 
 - ADR-0006 (PDF/export approach) remains **proposed**.

@@ -13,7 +13,7 @@ export default async function AnalysisPage({
   const objectId = object ?? "customer_360";
   return (
     <Shell
-      active="analysis"
+      active="cockpit"
       title="Analyse Guardian"
       subtitle="Ce que l’IA comprend, explique et recommande pour le périmètre choisi."
     >

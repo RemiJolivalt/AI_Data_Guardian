@@ -26,7 +26,7 @@ export default function CockpitPage() {
   return (
     <Shell
       active="cockpit"
-      title="Cockpit de confiance"
+      title="Trust Cockpit"
       subtitle="Identifiez où vos données fragilisent les décisions et où l’expertise peut être étendue."
     >
       <section style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr", gap: 12, marginBottom: 18 }}>
@@ -77,7 +77,7 @@ export default function CockpitPage() {
 
       <div style={{ display: "flex", gap: 12 }}>
         <Link
-          href={"/map?domain=customer" as Route}
+          href={"/analysis?object=customer_360" as Route}
           style={{
             padding: "0.8rem 1.2rem",
             background: `linear-gradient(90deg, ${t.cta}, #3a6ef0)`,
@@ -87,10 +87,10 @@ export default function CockpitPage() {
             fontWeight: 700,
           }}
         >
-          Explorer le périmètre prioritaire →
+          Comprendre et agir →
         </Link>
         <Link
-          href={"/analysis?object=customer_360" as Route}
+          href={"/map?domain=customer" as Route}
           style={{
             padding: "0.8rem 1.2rem",
             background: "#fff",
@@ -101,7 +101,7 @@ export default function CockpitPage() {
             fontWeight: 700,
           }}
         >
-          ⚡ Lancer une analyse Guardian
+          Voir la couverture (Data Scope)
         </Link>
       </div>
 
