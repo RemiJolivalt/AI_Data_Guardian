@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import type { Route } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { t } from "@/app/_components/theme";
 import { listDomains } from "@/core/domain-pack/registry";
+import { ModeToggle } from "@/app/_components/ModeToggle";
 
 type NavItem = { key: string; label: string; href: Route };
 
@@ -30,7 +32,7 @@ function domainNavItems(): NavItem[] {
 }
 
 /** Application shell (navy sidebar + header) matching the hi-fi mockups. */
-export function Shell({
+export async function Shell({
   active,
   title,
   subtitle,
@@ -43,7 +45,10 @@ export function Shell({
   scope?: string;
   children: ReactNode;
 }) {
-  const NAV: NavItem[] = [...BASE_TOP, ...domainNavItems(), ...BASE_BOTTOM];
+  const mode = (await cookies()).get("adg_mode")?.value === "full" ? "full" : "demo";
+  const allNav: NavItem[] = [...BASE_TOP, ...domainNavItems(), ...BASE_BOTTOM];
+  // Demo mode hides admin screens (Settings, Runs) for a clean executive story.
+  const NAV = mode === "demo" ? allNav.filter((n) => n.key !== "settings" && n.key !== "runs") : allNav;
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: t.contentBg, color: t.text }}>
       <aside
@@ -98,6 +103,7 @@ export function Shell({
             <span style={{ width: 8, height: 8, borderRadius: 999, background: t.accent }} /> LIVE
           </span>
         </div>
+        <ModeToggle />
       </aside>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
