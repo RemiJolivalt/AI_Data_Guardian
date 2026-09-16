@@ -1,0 +1,72 @@
+{
+  "is_synthetic": true,
+  "note": "Synthetic enterprise data map for the AI Data Guardian demonstrator. Deterministic, no real data.",
+  "globalTrustScore": 72,
+  "trustStatus": "Sous surveillance",
+  "domains": [
+    { "id": "customer", "name": "Customer", "trustScore": 72, "criticalObjects": 2 },
+    { "id": "product", "name": "Product", "trustScore": 81, "criticalObjects": 1 },
+    { "id": "revenue", "name": "Revenue", "trustScore": 64, "criticalObjects": 1 }
+  ],
+  "businessObjects": [
+    {
+      "id": "customer_360",
+      "domainId": "customer",
+      "name": "Customer 360",
+      "description": "Vue unifiée du client à partir des données maître, contact, adresse et consentement.",
+      "trustScore": 72,
+      "businessCriticality": "Élevée",
+      "existingControls": 6,
+      "recommendedControls": 9,
+      "tableIds": ["customer_master", "customer_contact", "customer_address", "customer_consent"]
+    },
+    {
+      "id": "customer_contact",
+      "domainId": "customer",
+      "name": "Customer Contact",
+      "description": "Coordonnées de contact utilisées par les campagnes et le service client.",
+      "trustScore": 58,
+      "businessCriticality": "Élevée",
+      "existingControls": 2,
+      "recommendedControls": 6,
+      "tableIds": ["contact_email", "contact_phone", "contact_preferences"]
+    },
+    {
+      "id": "product_catalog",
+      "domainId": "product",
+      "name": "Product Catalog",
+      "description": "Référentiel des produits, catégories et tarifs.",
+      "trustScore": 81,
+      "businessCriticality": "Modérée",
+      "existingControls": 5,
+      "recommendedControls": 6,
+      "tableIds": ["product_master", "product_category", "product_pricing"]
+    },
+    {
+      "id": "revenue_reporting",
+      "domainId": "revenue",
+      "name": "Revenue Reporting",
+      "description": "Agrégats de revenu alimentant le KPI Net Revenue et le reporting exécutif.",
+      "trustScore": 64,
+      "businessCriticality": "Élevée",
+      "existingControls": 4,
+      "recommendedControls": 7,
+      "tableIds": ["revenue_daily", "revenue_by_segment", "net_revenue_kpi"]
+    }
+  ],
+  "dataTables": [
+    { "id": "customer_master", "businessObjectId": "customer_360", "name": "customer_master", "qualityStatus": "Élevée", "governanceCoverage": 80, "reusableRules": ["Complétude de l'identifiant client", "Unicité de la clé client"] },
+    { "id": "customer_contact", "businessObjectId": "customer_360", "name": "customer_contact", "qualityStatus": "Modérée", "governanceCoverage": 45, "reusableRules": ["Validité du format email"] },
+    { "id": "customer_address", "businessObjectId": "customer_360", "name": "customer_address", "qualityStatus": "Modérée", "governanceCoverage": 50, "reusableRules": [] },
+    { "id": "customer_consent", "businessObjectId": "customer_360", "name": "customer_consent", "qualityStatus": "Faible", "governanceCoverage": 30, "reusableRules": ["Classification PII du consentement"] },
+    { "id": "contact_email", "businessObjectId": "customer_contact", "name": "contact_email", "qualityStatus": "Faible", "governanceCoverage": 25, "reusableRules": [] },
+    { "id": "contact_phone", "businessObjectId": "customer_contact", "name": "contact_phone", "qualityStatus": "Faible", "governanceCoverage": 20, "reusableRules": [] },
+    { "id": "contact_preferences", "businessObjectId": "customer_contact", "name": "contact_preferences", "qualityStatus": "Modérée", "governanceCoverage": 40, "reusableRules": [] },
+    { "id": "product_master", "businessObjectId": "product_catalog", "name": "product_master", "qualityStatus": "Élevée", "governanceCoverage": 85, "reusableRules": ["Complétude du code produit"] },
+    { "id": "product_category", "businessObjectId": "product_catalog", "name": "product_category", "qualityStatus": "Élevée", "governanceCoverage": 75, "reusableRules": [] },
+    { "id": "product_pricing", "businessObjectId": "product_catalog", "name": "product_pricing", "qualityStatus": "Modérée", "governanceCoverage": 60, "reusableRules": ["Cohérence du prix positif"] },
+    { "id": "revenue_daily", "businessObjectId": "revenue_reporting", "name": "revenue_daily", "qualityStatus": "Modérée", "governanceCoverage": 55, "reusableRules": ["Fraîcheur quotidienne"] },
+    { "id": "revenue_by_segment", "businessObjectId": "revenue_reporting", "name": "revenue_by_segment", "qualityStatus": "Modérée", "governanceCoverage": 50, "reusableRules": [] },
+    { "id": "net_revenue_kpi", "businessObjectId": "revenue_reporting", "name": "net_revenue_kpi", "qualityStatus": "Faible", "governanceCoverage": 35, "reusableRules": ["Rapprochement au grand livre"] }
+  ]
+}

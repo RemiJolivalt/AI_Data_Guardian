@@ -1,152 +1,115 @@
 import type { Route } from "next";
 import Link from "next/link";
+import { Shell, Card, Stat, Chip } from "@/app/_components/Shell";
 import { t } from "@/app/_components/theme";
-import { listDomains } from "@/core/domain-pack/registry";
+import { loadDataMap } from "@/core/data-map/registry";
+import { getDecisionsStore } from "@/core/data-map/decisions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const JOURNEY = [
-  "1. Voir le risque business",
-  "2. Comprendre la cause",
-  "3. Décider et remédier",
-  "4. Prouver la confiance",
-];
+const scoreColor = (score: number): string => (score >= 75 ? t.ok : score >= 60 ? t.warn : t.danger);
 
-function ScenarioCard({
-  href,
-  badge,
-  title,
-  desc,
-  metric,
-}: {
-  href: Route;
-  badge: string;
-  title: string;
-  desc: string;
-  metric: string;
-}) {
-  return (
-    <Link
-      href={href}
-      style={{
-        display: "block",
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        borderRadius: 14,
-        padding: "1.5rem",
-        textDecoration: "none",
-        color: "#eaf0fb",
-      }}
-    >
-      <span style={{ color: t.accent, fontSize: 12, fontWeight: 700, letterSpacing: 1 }}>{badge}</span>
-      <h2 style={{ margin: "0.5rem 0", color: "#fff", fontSize: 22 }}>{title}</h2>
-      <p style={{ margin: "0 0 0.75rem", color: "#aebfe0" }}>{desc}</p>
-      <p style={{ margin: 0, color: "#7f92bd", fontSize: 13 }}>{metric}</p>
-      <p style={{ margin: "1rem 0 0", color: t.accent, fontWeight: 700 }}>Ouvrir →</p>
-    </Link>
+export default function CockpitPage() {
+  const map = loadDataMap(process.cwd());
+  const criticalObjects = map.businessObjects.filter((o) => o.businessCriticality === "Élevée").length;
+  const controlsToExtend = map.businessObjects.reduce(
+    (sum, o) => sum + Math.max(0, o.recommendedControls - o.existingControls),
+    0,
   );
-}
+  const pendingDecisions = getDecisionsStore()
+    .list()
+    .filter((d) => d.status === "À valider").length;
 
-export default function HomePage() {
-  let domains: { domain_id: string; label: string; object_type: string; description: string }[] = [];
-  try {
-    domains = listDomains(process.cwd()).map((d) => ({
-      domain_id: d.domain_id,
-      label: d.manifest.label,
-      object_type: d.manifest.object_type,
-      description: d.manifest.description,
-    }));
-  } catch {
-    domains = [];
-  }
+  const priority = map.businessObjects.find((o) => o.id === "customer_360");
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: `linear-gradient(160deg, ${t.sidebarBg} 0%, #0c2550 100%)`,
-        color: "#eaf0fb",
-        fontFamily: "system-ui, sans-serif",
-        padding: "3rem 4rem",
-      }}
+    <Shell
+      active="cockpit"
+      title="Cockpit de confiance"
+      subtitle="Identifiez où vos données fragilisent les décisions et où l’expertise peut être étendue."
     >
-      <div style={{ height: 4, background: `linear-gradient(90deg, ${t.accent}, ${t.cta})`, marginBottom: 40 }} />
-      <span style={{ background: "#0f2a55", color: t.accent, padding: "6px 14px", borderRadius: 999, fontSize: 12, fontWeight: 700, letterSpacing: 1 }}>
-        AI TRUST PLATFORM
-      </span>
-
-      <h1 style={{ fontSize: 48, margin: "1.5rem 0 0.5rem", color: "#fff" }}>AI Data Guardian</h1>
-      <p style={{ fontSize: 20, color: "#aebfe0", maxWidth: 720, margin: 0 }}>
-        Puis-je faire confiance à cette donnée pour cet usage ? Quel est le risque métier ? Quelles
-        actions donnent le plus de confiance au moindre effort ?
-      </p>
-      <p style={{ color: t.accent, fontStyle: "italic", marginTop: 14, maxWidth: 720 }}>
-        We don’t assess data quality. We quantify trust for decisions, analytics and AI.
-      </p>
-
-      <Link
-        href={"/decision" as Route}
-        style={{
-          display: "block",
-          marginTop: 28,
-          maxWidth: 980,
-          background: `linear-gradient(90deg, ${t.cta}, #3a6ef0)`,
-          borderRadius: 14,
-          padding: "1.5rem",
-          textDecoration: "none",
-          color: "#fff",
-        }}
-      >
-        <span style={{ color: "#cfe0ff", fontSize: 12, fontWeight: 700, letterSpacing: 1 }}>TRUST COPILOT</span>
-        <h2 style={{ margin: "0.4rem 0", fontSize: 26 }}>Can I trust this decision?</h2>
-        <p style={{ margin: 0, color: "#eaf0fb" }}>
-          Posez la question — obtenez un verdict, l’exposition €, les feux rouges, le plan et le certificat.
-        </p>
-      </Link>
-
-      <p style={{ color: t.accent, fontWeight: 700, margin: "2.5rem 0 0.75rem" }}>Scénario par décision (KPI)</p>
-      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, maxWidth: 980 }}>
-        <ScenarioCard
-          href={"/cockpit" as Route}
-          badge="KPI & DÉCISION"
-          title="Executive Trust — Revenue"
-          desc="Le KPI Net Revenue est-il fiable pour le comité ? Causes, exposition et remédiation."
-          metric="Trust Score · Why not trusted · Exposition simulée"
+      <section style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1fr", gap: 12, marginBottom: 18 }}>
+        <Card>
+          <div style={{ color: t.muted, fontSize: 13 }}>Score global de confiance</div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 4 }}>
+            <span style={{ fontSize: 44, fontWeight: 800, color: scoreColor(map.globalTrustScore) }}>
+              {map.globalTrustScore}
+            </span>
+            <span style={{ color: t.muted, fontSize: 18 }}>/ 100</span>
+          </div>
+          <div style={{ marginTop: 6 }}>
+            <Chip label={map.trustStatus} color={t.warn} />
+          </div>
+        </Card>
+        <Stat label="Objets critiques" value={String(criticalObjects)} sub="Criticité élevée" subColor={t.danger} />
+        <Stat label="Contrôles à étendre" value={String(controlsToExtend)} sub="Réutilisables" subColor={t.cta} />
+        <Stat
+          label="Décisions expertes en attente"
+          value={String(pendingDecisions)}
+          sub="File de validation"
+          subColor={t.proposed}
         />
       </section>
 
-      <p style={{ color: t.accent, fontWeight: 700, margin: "2.5rem 0 0.75rem" }}>
-        Objets métier (Domain Packs) — ajout par simple dépôt d’un dossier
-      </p>
-      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, maxWidth: 980 }}>
-        {domains.map((d) => (
-          <ScenarioCard
-            key={d.domain_id}
-            href={`/domain/${d.domain_id}` as Route}
-            badge={d.object_type.replace("_", " ")}
-            title={`${d.label} Trust Assessment`}
-            desc={d.description || "Connaissance, gouvernance, qualité et lineage de l’objet métier."}
-            metric="Knowledge coverage · Gaps · Suggestions IA groundées"
-          />
-        ))}
-      </section>
-
-      <p style={{ color: t.accent, fontWeight: 700, margin: "2.5rem 0 0.75rem" }}>Parcours démonstrateur</p>
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, maxWidth: 980 }}>
-        {JOURNEY.map((step) => (
-          <div key={step} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 12, padding: "1rem 1.1rem", fontWeight: 600 }}>
-            {step}
+      {priority ? (
+        <Card style={{ borderLeft: `4px solid ${t.danger}`, marginBottom: 18 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ fontWeight: 800, color: t.title, fontSize: 18 }}>⚠ {priority.name}</span>
+                <Chip label="Exposition Élevée" color={t.danger} />
+              </div>
+              <p style={{ margin: "8px 0 0", color: t.text, maxWidth: 720 }}>
+                Les contrôles de complétude ne couvrent pas les données de contact utilisées par les
+                campagnes et le service client, ce qui fragilise les décisions clients et les usages IA.
+              </p>
+              <p style={{ margin: "8px 0 0", color: t.muted, fontSize: 13 }}>
+                Action recommandée : étendre les contrôles éprouvés aux objets de contact similaires.
+              </p>
+            </div>
+            <span style={{ fontSize: 26, fontWeight: 800, color: scoreColor(priority.trustScore) }}>
+              {priority.trustScore}
+            </span>
           </div>
-        ))}
-      </section>
+        </Card>
+      ) : null}
 
-      <p style={{ color: "#7f92bd", fontSize: 13, marginTop: 40 }}>
-        Prototype haute fidélité · Données synthétiques ·{" "}
-        <Link href={"/runs" as Route} style={{ color: t.accent }}>
-          Historique des runs
+      <div style={{ display: "flex", gap: 12 }}>
+        <Link
+          href={"/map?domain=customer" as Route}
+          style={{
+            padding: "0.8rem 1.2rem",
+            background: `linear-gradient(90deg, ${t.cta}, #3a6ef0)`,
+            color: "#fff",
+            borderRadius: 10,
+            textDecoration: "none",
+            fontWeight: 700,
+          }}
+        >
+          Explorer le périmètre prioritaire →
         </Link>
+        <Link
+          href={"/analysis?object=customer_360" as Route}
+          style={{
+            padding: "0.8rem 1.2rem",
+            background: "#fff",
+            color: t.cta,
+            border: `1px solid ${t.border}`,
+            borderRadius: 10,
+            textDecoration: "none",
+            fontWeight: 700,
+          }}
+        >
+          ⚡ Lancer une analyse Guardian
+        </Link>
+      </div>
+
+      <p style={{ marginTop: 26, color: t.muted, fontSize: 13, maxWidth: 760 }}>
+        Transformez l’expertise Data Office en une capacité d’AI Trust réutilisable et scalable.
+        <br />
+        Données synthétiques · prototype de démonstration.
       </p>
-    </main>
+    </Shell>
   );
 }

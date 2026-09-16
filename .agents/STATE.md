@@ -72,7 +72,16 @@ the demo scenario and renders in the cockpit. Stack: **TypeScript / Next.js / Ve
 
 ## In progress
 
-- None.
+- **Demonstrator refonte (Gate G1 approved 2026-09-16) — DONE.** Tight 4-screen story shipped:
+  Cockpit de confiance (`/`) · Carte du patrimoine (`/map`) · Analyse Guardian (`/analysis`) ·
+  Décisions expertes (`/expert-decisions`), 4-entry sidebar + persistent "Lancer une analyse
+  Guardian" CTA. New deterministic core `src/core/data-map/` (Zod contracts, loader, analysis,
+  in-memory decisions store) + synthetic `demo_data/enterprise_data_map.json` (`is_synthetic`).
+  APIs: `GET /api/map`, `POST /api/map/analyze`, `GET|POST /api/map/decisions`. Capitalization loop:
+  a validated decision re-injects as reusable expertise into the next analysis of the same object and
+  increments the Capitalisé counter; rejected decisions never enter the knowledge. Exposure is
+  qualitative (Faible/Modérée/Élevée), no invented €. Certificate route kept, off primary nav.
+  **74/74 tests pass (7 new in `tests/unit/dataMap.test.ts`); typecheck clean; `next build` green.**
 
 ## Blocked / awaiting decision
 

@@ -3,33 +3,22 @@ import type { Route } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { t } from "@/app/_components/theme";
-import { listDomains } from "@/core/domain-pack/registry";
 import { ModeToggle } from "@/app/_components/ModeToggle";
 
 type NavItem = { key: string; label: string; href: Route };
 
+// Primary demonstrator navigation: the four screens of the virtuous circle.
 const BASE_TOP: NavItem[] = [
-  { key: "home", label: "Accueil", href: "/" as Route },
-  { key: "decision", label: "Trust Copilot", href: "/decision" as Route },
-  { key: "exec", label: "Vue exécutive", href: "/cockpit" as Route },
-  { key: "certificate", label: "Certificat", href: "/certificate" as Route },
+  { key: "cockpit", label: "Cockpit de confiance", href: "/" as Route },
+  { key: "map", label: "Carte du patrimoine", href: "/map" as Route },
+  { key: "analysis", label: "Analyse Guardian", href: "/analysis" as Route },
+  { key: "decisions", label: "Décisions expertes", href: "/expert-decisions" as Route },
 ];
+// Admin screens: full mode only, kept off the primary story.
 const BASE_BOTTOM: NavItem[] = [
   { key: "settings", label: "Paramètres", href: "/settings" as Route },
   { key: "runs", label: "Runs", href: "/runs" as Route },
 ];
-
-function domainNavItems(): NavItem[] {
-  try {
-    return listDomains(process.cwd()).map((d) => ({
-      key: `domain:${d.domain_id}`,
-      label: `${d.manifest.label} Trust`,
-      href: `/domain/${d.domain_id}` as Route,
-    }));
-  } catch {
-    return [];
-  }
-}
 
 /** Application shell (navy sidebar + header) matching the hi-fi mockups. */
 export async function Shell({
@@ -46,9 +35,8 @@ export async function Shell({
   children: ReactNode;
 }) {
   const mode = (await cookies()).get("adg_mode")?.value === "full" ? "full" : "demo";
-  const allNav: NavItem[] = [...BASE_TOP, ...domainNavItems(), ...BASE_BOTTOM];
-  // Demo mode hides admin screens (Settings, Runs) for a clean executive story.
-  const NAV = mode === "demo" ? allNav.filter((n) => n.key !== "settings" && n.key !== "runs") : allNav;
+  // Demo mode keeps only the four-screen story; full mode also exposes admin screens.
+  const NAV = mode === "demo" ? BASE_TOP : [...BASE_TOP, ...BASE_BOTTOM];
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: t.contentBg, color: t.text }}>
       <aside
@@ -88,6 +76,22 @@ export async function Shell({
             );
           })}
         </nav>
+        <Link
+          href={"/analysis" as Route}
+          style={{
+            margin: "1.25rem 1rem 0",
+            padding: "0.7rem 0.9rem",
+            background: `linear-gradient(90deg, ${t.cta}, #3a6ef0)`,
+            color: "#fff",
+            borderRadius: 10,
+            textDecoration: "none",
+            fontWeight: 700,
+            fontSize: 13,
+            textAlign: "center",
+          }}
+        >
+          ⚡ Lancer une analyse Guardian
+        </Link>
         <div style={{ marginTop: "auto", padding: "0 1.25rem", fontSize: 12 }}>
           <span
             style={{
